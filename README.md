@@ -2,22 +2,50 @@
 
 **Pavilion AI in GTM School — Session 5: AI Agents**
 
-A collection of ready-to-use AI agent skills for go-to-market and productivity workflows. Each skill works in **Claude Cowork** (copy-paste a prompt) or **Claude Code** (install as a skill for repeated use).
+A collection of 16 ready-to-use AI agent skills for go-to-market and revenue leadership. Each skill works in **Claude Cowork** (copy-paste a prompt) or **Claude Code** (install as a skill for repeated use).
 
 ## What's in the box
 
-### Go-to-Market Skills
+### Sales Execution
 
 | Skill | What it does | Time saved |
 |-------|-------------|------------|
 | [Meeting Prep](skills/meeting-prep/) | Researches a company + person and produces a scannable briefing before your call | 15-25 min/call |
 | [Prospect Research](skills/prospect-research/) | Researches target accounts, finds decision-makers, drafts personalized outreach | 30-45 min/batch |
-| [Win/Loss Analyzer](skills/win-loss-analyzer/) | Analyzes deal outcomes for patterns, loss reasons, and actionable takeaways | 2-3 hours/quarter |
-| [Competitive Intel](skills/competitive-intel/) | Monitors competitors for product launches, hiring signals, press, and pricing changes | 1-2 hours/week |
-| [Pipeline Health](skills/pipeline-health/) | Audits your pipeline for stuck deals, single-threading, and coverage gaps | 30-60 min/week |
 | [Post-Call Summary](skills/post-call-summary/) | Turns raw call notes into action items, follow-up email, and CRM-ready summary | 15-20 min/call |
+| [Objection Handler](skills/objection-handler/) | Diagnoses stuck deals, prescribes recovery plays, and writes the exact messages to send | Deals saved, not time |
+| [Deal Strategy](skills/deal-strategy/) | MEDDIC assessment, stakeholder map, competitive positioning, and action plan for active deals | 30-45 min/deal |
 
-### Productivity Skills
+### Pipeline & Forecasting
+
+| Skill | What it does | Time saved |
+|-------|-------------|------------|
+| [Pipeline Health](skills/pipeline-health/) | Audits your pipeline for stuck deals, single-threading, and coverage gaps | 30-60 min/week |
+| [Forecast Narrative](skills/forecast-narrative/) | Translates pipeline data into a commit/upside/risk narrative for your CRO or board | 45-60 min/cycle |
+| [Territory Analyzer](skills/territory-analyzer/) | Team-level view of rep performance, coverage gaps, whitespace, and reallocation recommendations | 1-2 hours/review |
+
+### Competitive & Market Intelligence
+
+| Skill | What it does | Time saved |
+|-------|-------------|------------|
+| [Competitive Intel](skills/competitive-intel/) | Monitors competitors for product launches, hiring signals, press, and pricing changes | 1-2 hours/week |
+| [Win/Loss Analyzer](skills/win-loss-analyzer/) | Analyzes deal outcomes for patterns, loss reasons, and actionable takeaways | 2-3 hours/quarter |
+
+### Customer Success & Retention
+
+| Skill | What it does | Time saved |
+|-------|-------------|------------|
+| [QBR Builder](skills/qbr-builder/) | Builds customer-facing quarterly business reviews that lead with value, not features | 2-3 hours/QBR |
+| [Churn Early Warning](skills/churn-early-warning/) | Flags at-risk accounts by revenue impact and prescribes save plays before renewal | Catches risk 60-90 days earlier |
+
+### Leadership & Strategy
+
+| Skill | What it does | Time saved |
+|-------|-------------|------------|
+| [Board Update](skills/board-update/) | Builds structured board or investor updates with revenue, pipeline, team, and strategic narrative | 2-3 hours/update |
+| [Hiring Brief](skills/hiring-brief/) | Scopes a role, writes a JD, provides comp guidance, and builds an interview scorecard | 3-4 hours/role |
+
+### Productivity
 
 | Skill | What it does | Time saved |
 |-------|-------------|------------|
@@ -38,11 +66,11 @@ A collection of ready-to-use AI agent skills for go-to-market and productivity w
 1. Install Claude Code: `brew install claude-code` (Mac) or see [install docs](https://docs.anthropic.com/en/docs/claude-code)
 2. Clone this repo:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/pavilion-gtm-agents.git
+   git clone https://github.com/scott-wueschinski-GTMify/aigtm.git
    ```
 3. Copy any skill folder into your Claude Code skills directory:
    ```bash
-   cp -r pavilion-gtm-agents/skills/meeting-prep ~/.claude/skills/
+   cp -r aigtm/skills/meeting-prep ~/.claude/skills/
    ```
 4. Use it by name: just ask Claude "prep me for my call with Acme Corp" and the skill activates automatically
 
@@ -77,6 +105,7 @@ These skills are starting points, not finished products. The best agents are the
 - **Adjust the output format** to match your CRM fields or team templates
 - **Chain skills together** — run Meeting Prep, then Post-Call Summary, then Pipeline Health in sequence
 - **Add guardrails** — suppression lists, approval steps, or "never contact" rules for compliance
+- **Connect MCP servers** — plug in your CRM, email, calendar, or CS platform for automated data pulls
 
 ## About
 
