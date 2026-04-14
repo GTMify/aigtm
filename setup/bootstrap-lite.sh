@@ -60,6 +60,9 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# ── Ensure mise shims are on PATH ──────────────────────────────
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+
 # ── Detection functions ────────────────────────────────────────
 has_cmd() { command -v "$1" &>/dev/null; }
 
@@ -184,16 +187,11 @@ install_tools() {
     fi
   done
 
-  # Activate mise in this shell so installed runtimes are on PATH
-  eval "$(mise activate bash)" 2>/dev/null || true
-
   # Node.js via mise
   if ! mise which node &>/dev/null 2>&1; then
     info "Installing Node.js $MISE_NODE_VERSION via mise..."
     mise install "node@$MISE_NODE_VERSION"
     mise use --global "node@$MISE_NODE_VERSION"
-    # Re-activate so npm is available immediately
-    eval "$(mise activate bash)" 2>/dev/null || true
   else
     ok "Node.js already installed via mise"
   fi
@@ -210,9 +208,11 @@ install_tools() {
   # Claude Code
   if ! has_cmd claude; then
     info "Installing Claude Code..."
-    # Ensure npm is on PATH via mise shim as fallback
-    eval "$(mise activate bash)" 2>/dev/null || true
-    npm install -g @anthropic-ai/claude-code
+    npm install -g @anthropic-ai/claude-code || {
+      fail "npm install failed — try running manually: npm install -g @anthropic-ai/claude-code"
+      return 1
+    }
+    ok "Claude Code installed"
   else
     ok "Claude Code already installed"
   fi
