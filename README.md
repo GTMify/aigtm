@@ -89,7 +89,7 @@ This installs Homebrew, Node.js, Python, Claude Code, and links all 16 skills. E
 1. Install Claude Code: `brew install claude-code` (Mac) or see [install docs](https://docs.anthropic.com/en/docs/claude-code)
 2. Clone this repo:
    ```bash
-   git clone https://github.com/scott-wueschinski-GTMify/aigtm.git
+   git clone https://github.com/GTMify/aigtm.git
    ```
 3. Copy any skill folder into your Claude Code skills directory:
    ```bash

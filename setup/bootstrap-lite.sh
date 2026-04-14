@@ -15,7 +15,7 @@
 #   - Organized ~/claude/ workspace
 #
 # This is a standalone script — no access to other repos required.
-# For the full GTMify team setup, see: github.com/GTMify/gtmify-config
+# For more: github.com/GTMify/aigtm
 
 set -euo pipefail
 
@@ -184,11 +184,16 @@ install_tools() {
     fi
   done
 
+  # Activate mise in this shell so installed runtimes are on PATH
+  eval "$(mise activate bash)" 2>/dev/null || true
+
   # Node.js via mise
   if ! mise which node &>/dev/null 2>&1; then
     info "Installing Node.js $MISE_NODE_VERSION via mise..."
     mise install "node@$MISE_NODE_VERSION"
     mise use --global "node@$MISE_NODE_VERSION"
+    # Re-activate so npm is available immediately
+    eval "$(mise activate bash)" 2>/dev/null || true
   else
     ok "Node.js already installed via mise"
   fi
@@ -205,6 +210,8 @@ install_tools() {
   # Claude Code
   if ! has_cmd claude; then
     info "Installing Claude Code..."
+    # Ensure npm is on PATH via mise shim as fallback
+    eval "$(mise activate bash)" 2>/dev/null || true
     npm install -g @anthropic-ai/claude-code
   else
     ok "Claude Code already installed"
