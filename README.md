@@ -54,14 +54,37 @@ A collection of 16 ready-to-use AI agent skills for go-to-market and revenue lea
 
 ## Quick Start
 
-### Option A: Claude Cowork (no setup required)
+### Option A: Full Setup (recommended)
+
+Run the bootstrap script to install Claude Code, dev tools, and all 16 skills in one command:
+
+```bash
+# 1. Clone this repo
+git clone https://github.com/GTMify/aigtm.git ~/claude/aigtm
+
+# 2. Run the bootstrap
+~/claude/aigtm/setup/bootstrap-lite.sh --install
+
+# 3. Reload your shell
+source ~/.zshrc
+
+# 4. Verify everything is green
+~/claude/aigtm/setup/bootstrap-lite.sh --check
+
+# 5. Start Claude Code
+cc
+```
+
+This installs Homebrew, Node.js, Python, Claude Code, and links all 16 skills. Edit `~/.claude/CLAUDE.md` to add your company context — the skills work better when Claude knows your role and ICP.
+
+### Option B: Claude Cowork (no setup required)
 
 1. Open Claude Cowork on your desktop
 2. Open any skill folder above
 3. Copy the prompt from the **`COWORK-PROMPT.md`** file
 4. Paste it into Cowork, fill in the `[bracketed fields]`, and hit Enter
 
-### Option B: Claude Code (for power users)
+### Option C: Claude Code (for power users)
 
 1. Install Claude Code: `brew install claude-code` (Mac) or see [install docs](https://docs.anthropic.com/en/docs/claude-code)
 2. Clone this repo:
@@ -74,7 +97,7 @@ A collection of 16 ready-to-use AI agent skills for go-to-market and revenue lea
    ```
 4. Use it by name: just ask Claude "prep me for my call with Acme Corp" and the skill activates automatically
 
-### Option C: Claude Code (one-liner)
+### Option D: Claude Code (one-liner)
 
 From any Claude Code session, you can also just say:
 
