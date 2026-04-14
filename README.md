@@ -1,10 +1,55 @@
-# GTM Agent Skills for Claude
+# AI GTM Skills for Claude
 
-**Pavilion AI in GTM School — Session 5: AI Agents**
+**16 ready-to-use AI agent skills for go-to-market and revenue leadership.** Meeting prep, prospect research, deal strategy, pipeline health, competitive intel, and more — all running locally in Claude Code.
 
-A collection of 16 ready-to-use AI agent skills for go-to-market and revenue leadership. Each skill works in **Claude Cowork** (copy-paste a prompt) or **Claude Code** (install as a skill for repeated use).
+Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the [Pavilion](https://www.joinpavilion.com/) AI in GTM School.
 
-## What's in the box
+---
+
+## See It in Action
+
+Before installing anything, see what these skills produce:
+
+| Example | What was asked | Output |
+|---------|---------------|--------|
+| [Meeting Prep](examples/meeting-prep-output.md) | "Prep me for my call with Sarah Chen at Meridian Health Systems" | Company snapshot, person brief, pain points, conversation starters, landmines |
+| [Deal Strategy](examples/deal-strategy-output.md) | "Deal strategy for NovaBridge Financial — $180K, competing against Clari" | MEDDIC assessment, stakeholder map, competitive positioning, weekly action plan |
+| [Pipeline Health](examples/pipeline-health-output.md) | "Audit my pipeline. My quota is $500K this quarter." | Coverage analysis, risk flags, commit vs. upside, prioritized action list |
+| [Prospect Research](examples/prospect-research-output.md) | "Research these 3 companies and draft outreach" | Company brief, decision-maker, personalization hook, 3-sentence email |
+
+---
+
+## Quick Start
+
+### macOS (one command)
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/GTMify/aigtm/main/setup/bootstrap.sh)"
+```
+
+This installs everything — Homebrew, Node.js, Python, Claude Code, and all 16 skills. Takes about 5 minutes. When it finishes, Claude launches automatically and walks you through a 2-minute profile setup.
+
+**Already cloned the repo?**
+```bash
+./setup/bootstrap.sh
+```
+
+### Windows (PowerShell)
+
+```powershell
+git clone https://github.com/GTMify/aigtm.git $env:USERPROFILE\claude\aigtm
+~\claude\aigtm\setup\bootstrap.ps1
+```
+
+Requires winget (built into Windows 11, available via App Installer on Windows 10). After setup, close and reopen your terminal, then run `claude`.
+
+### Claude Desktop / Cowork (no install required)
+
+No terminal needed. Open any skill folder below, copy the prompt from the **`COWORK-PROMPT.md`** file, paste it into Claude, fill in the `[bracketed fields]`, and go.
+
+---
+
+## All 16 Skills
 
 ### Sales Execution
 
@@ -52,58 +97,21 @@ A collection of 16 ready-to-use AI agent skills for go-to-market and revenue lea
 | [Weekly Planner](skills/weekly-planner/) | Synthesizes calendar, pipeline, and priorities into a focused weekly game plan | 30-45 min/week |
 | [Inbox Triage](skills/inbox-triage/) | Categorizes, prioritizes, and drafts responses for your email backlog | 20-30 min/day |
 
-## Quick Start
+---
 
-### Option A: Full Setup (recommended)
+## Customize Your Skills
 
-Run the bootstrap script to install Claude Code, dev tools, and all 16 skills in one command:
+These skills are starting points. They work out of the box, but they work **dramatically better** when tuned to your company, ICP, and competitive landscape.
 
-```bash
-# 1. Clone this repo
-git clone https://github.com/GTMify/aigtm.git ~/claude/aigtm
+See the **[Customization Guide](CUSTOMIZATION.md)** for:
+- Adding your company context, value props, and proof points
+- Defining your ICP with buying signals and disqualification criteria
+- Building a competitor playbook with trap questions and positioning
+- Customizing output formats to match your CRM and templates
+- Chaining skills into multi-step workflows
+- Adding compliance guardrails and suppression lists
 
-# 2. Run the bootstrap
-~/claude/aigtm/setup/bootstrap-lite.sh --install
-
-# 3. Reload your shell
-source ~/.zshrc
-
-# 4. Verify everything is green
-~/claude/aigtm/setup/bootstrap-lite.sh --check
-
-# 5. Launch Claude Code from this repo
-cd ~/claude/aigtm && claude
-```
-
-This installs Homebrew, Node.js, Python, Claude Code, and links all 16 skills. On first launch, Claude will walk you through a 2-minute profile setup — your role, company, ICP, and competitors. This context makes every skill dramatically more useful.
-
-### Option B: Claude Cowork (no setup required)
-
-1. Open Claude Cowork on your desktop
-2. Open any skill folder above
-3. Copy the prompt from the **`COWORK-PROMPT.md`** file
-4. Paste it into Cowork, fill in the `[bracketed fields]`, and hit Enter
-
-### Option C: Claude Code (for power users)
-
-1. Install Claude Code: `brew install claude-code` (Mac) or see [install docs](https://docs.anthropic.com/en/docs/claude-code)
-2. Clone this repo:
-   ```bash
-   git clone https://github.com/GTMify/aigtm.git
-   ```
-3. Copy any skill folder into your Claude Code skills directory:
-   ```bash
-   cp -r aigtm/skills/meeting-prep ~/.claude/skills/
-   ```
-4. Use it by name: just ask Claude "prep me for my call with Acme Corp" and the skill activates automatically
-
-### Option D: Claude Code (one-liner)
-
-From any Claude Code session, you can also just say:
-
-```
-Read the SKILL.md at [path-to-this-repo]/skills/meeting-prep/SKILL.md and use it to prep me for my meeting with Acme Corp
-```
+---
 
 ## How Skills Work
 
@@ -112,30 +120,44 @@ Each skill folder contains:
 ```
 skills/meeting-prep/
 ├── SKILL.md            # Claude Code skill definition (the "brain")
-├── COWORK-PROMPT.md    # Copy-paste version for Cowork
+├── COWORK-PROMPT.md    # Copy-paste version for Claude Desktop
 └── README.md           # What this skill does and how to customize it
 ```
 
 **SKILL.md** is the instruction set that tells Claude *how to think* about a task — what to research, what format to use, what to avoid, and what guardrails to follow. It's written in plain English. You can read it, edit it, and make it your own.
 
-**COWORK-PROMPT.md** is a self-contained prompt you paste directly into Claude Cowork. Same logic, packaged as a single prompt with fill-in-the-blank fields.
-
-## Customization
-
-These skills are starting points, not finished products. The best agents are the ones tuned to your specific workflow. Some ideas:
-
-- **Add your company context** to the system prompts (your product, your ICP, your competitors)
-- **Adjust the output format** to match your CRM fields or team templates
-- **Chain skills together** — run Meeting Prep, then Post-Call Summary, then Pipeline Health in sequence
-- **Add guardrails** — suppression lists, approval steps, or "never contact" rules for compliance
-- **Connect MCP servers** — plug in your CRM, email, calendar, or CS platform for automated data pulls
-
-## About
-
-Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the Pavilion AI in GTM School.
-
-Questions? Reach out at scott@gtmify.io
+**COWORK-PROMPT.md** is a self-contained prompt you paste directly into Claude Desktop or Cowork. Same logic, packaged as a single prompt with fill-in-the-blank fields.
 
 ---
 
-*These skills use Claude's built-in web search and file tools. No API keys, external services, or coding required for Cowork. Claude Code skills may optionally use MCP servers for CRM integration.*
+## Troubleshooting
+
+**"command not found: claude" after install**
+Close and reopen your terminal, or run `source ~/.zshrc` (Mac) / restart PowerShell (Windows).
+
+**"npm: command not found" during install**
+The bootstrap script handles this, but if you see it, run: `export PATH="$HOME/.local/share/mise/shims:$PATH"` then re-run the script.
+
+**Skills not activating in Claude Code**
+Check that skills are linked: `ls ~/.claude/skills/`. If empty, re-run `./setup/bootstrap.sh`.
+
+**"Permission denied" on Windows symlinks**
+Enable Developer Mode: Settings > Privacy & Security > For developers > Developer Mode. Or run PowerShell as Administrator.
+
+**Want to verify your setup?**
+```bash
+./setup/bootstrap.sh --check    # macOS
+.\setup\bootstrap.ps1 -Check    # Windows
+```
+
+---
+
+## About
+
+Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the Pavilion AI in GTM School. Questions? Reach out at scott@gtmify.io.
+
+These skills use Claude's built-in web search and file tools. No API keys, external services, or coding required for the Desktop/Cowork prompts. Claude Code skills may optionally use MCP servers for CRM integration.
+
+---
+
+*Licensed for personal and commercial use. Fork it, customize it, make it yours.*
