@@ -102,8 +102,7 @@ run_check() {
   if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
     ok "~/.claude/CLAUDE.md"
   else
-    fail "~/.claude/CLAUDE.md missing"
-    ISSUES=$((ISSUES + 1))
+    warn "~/.claude/CLAUDE.md not yet created — launch Claude Code to set up your profile"
   fi
 
   local skill_count=0
@@ -240,50 +239,11 @@ deploy_claude_config() {
   mkdir -p "$CLAUDE_DIR"
   mkdir -p "$CLAUDE_DIR/skills"
 
-  # Deploy CLAUDE.md if none exists (never overwrite a user's existing config)
-  if [ ! -f "$CLAUDE_DIR/CLAUDE.md" ]; then
-    cat > "$CLAUDE_DIR/CLAUDE.md" << 'CLAUDE_MD'
-# Claude Code — Personal Configuration
-
-## How I Work
-
-I use Claude Code as my primary development and operations interface. This file provides persistent context across all sessions.
-
-## Communication Preferences
-
-- **Tone:** Professional, clear, and direct.
-- **Style:** Structured prose with tables for comparisons. Bold for key concepts.
-- **Format:** GitHub-flavored Markdown with clear headings.
-
-## Development Preferences
-
-- Use modern best practices for the given language.
-- In JavaScript/TypeScript, prefer ES modules, named exports, and strict mode.
-- Before committing code, run linters and tests.
-- When research is required, start broad and narrow down. Save key findings.
-
-## Installed Skills
-
-AI GTM skills are installed from the [aigtm](https://github.com/GTMify/aigtm) repo:
-
-| Skill | What It Does |
-|-------|-------------|
-| `/meeting-prep` | Research a company + person, produce a briefing before your call |
-| `/prospect-research` | Research target accounts, find decision-makers, draft outreach |
-| `/deal-strategy` | MEDDIC assessment, stakeholder map, action plan for active deals |
-| `/pipeline-health` | Audit pipeline for stuck deals, coverage gaps, risk |
-| `/competitive-intel` | Monitor competitors for signals, pricing, product moves |
-| `/post-call-summary` | Turn call notes into actions, follow-up email, CRM summary |
-
-Type the skill name to activate it. Run `/help` to see all available commands.
-
----
-
-*Edit this file to add your own context: your role, your company, your ICP, your tools.*
-CLAUDE_MD
-    ok "Created ~/.claude/CLAUDE.md (starter template)"
+  # Check if CLAUDE.md exists — onboarding happens via the repo-level CLAUDE.md
+  if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
+    ok "~/.claude/CLAUDE.md already exists"
   else
-    ok "~/.claude/CLAUDE.md already exists (not overwriting)"
+    info "~/.claude/CLAUDE.md will be created on first launch of Claude Code"
   fi
 
   # Symlink skills from this repo
@@ -405,11 +365,12 @@ run_install() {
   echo "  Next steps:"
   echo "    1. Reload your shell:  source ~/.zshrc"
   echo "    2. Verify:             $(basename "$0") --check"
-  echo "    3. Start Claude Code:  cc"
+  echo "    3. Launch Claude Code from this repo:"
+  echo "       cd $REPO_DIR && claude"
   echo
-  echo "  Edit ~/.claude/CLAUDE.md to add your company context,"
-  echo "  ICP, competitors, and role — the skills work better"
-  echo "  when Claude knows who you are."
+  echo "  On first launch, Claude will walk you through setting"
+  echo "  up your profile — your role, company, ICP, and competitors."
+  echo "  This makes every skill work better for you."
 }
 
 # ══════════════════════════════════════════════════════════════

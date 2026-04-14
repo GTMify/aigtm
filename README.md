@@ -71,11 +71,11 @@ source ~/.zshrc
 # 4. Verify everything is green
 ~/claude/aigtm/setup/bootstrap-lite.sh --check
 
-# 5. Start Claude Code
-cc
+# 5. Launch Claude Code from this repo
+cd ~/claude/aigtm && claude
 ```
 
-This installs Homebrew, Node.js, Python, Claude Code, and links all 16 skills. Edit `~/.claude/CLAUDE.md` to add your company context — the skills work better when Claude knows your role and ICP.
+This installs Homebrew, Node.js, Python, Claude Code, and links all 16 skills. On first launch, Claude will walk you through a 2-minute profile setup — your role, company, ICP, and competitors. This context makes every skill dramatically more useful.
 
 ### Option B: Claude Cowork (no setup required)
 
