@@ -16,10 +16,11 @@
 # What this installs:
 #   Phase 1: Xcode Command Line Tools + Git
 #   Phase 2: Homebrew (macOS package manager)
-#   Phase 3: Developer tools (mise, jq, gh, fzf, bat, ripgrep, fd, tree)
+#   Phase 3: Developer tools (mise, jq, gh, fzf, bat, ripgrep, fd, tree, direnv,
+#            httpie, pandoc, poppler, imagemagick, ffmpeg, tesseract, yt-dlp)
 #   Phase 4: Node.js 24 + Python 3.13 (via mise)
 #   Phase 5: Claude Code CLI
-#   Phase 6: Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)
+#   Phase 6: Public CLIs (vercel, stripe, supabase, wrangler, netlify, agent-browser)
 #   Phase 7: Bring Your Own Keys (.env setup)
 #   Phase 8: AI GTM Skills (linked to ~/.claude/skills/)
 #   Phase 9: GitHub authentication
@@ -343,6 +344,17 @@ brew_install bat
 brew_install ripgrep rg
 brew_install fd
 brew_install tree
+brew_install direnv
+brew_install httpie http
+
+# Content / file-processing tools (used by docx, pdf, xlsx, pptx, one-pager,
+# microsite, proposal, kit, post-call-summary, contract-review skills)
+brew_install pandoc
+brew_install poppler pdftotext
+brew_install imagemagick magick
+brew_install ffmpeg
+brew_install tesseract
+brew_install yt-dlp
 
 # ── Phase 4: Runtimes (Node + Python via mise) ─────────────────
 phase 4 "Node.js $MISE_NODE_VERSION + Python $MISE_PYTHON_VERSION"
@@ -422,7 +434,7 @@ else
 fi
 
 # ── Phase 6: Public CLIs ───────────────────────────────────────
-phase 6 "Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)"
+phase 6 "Public CLIs (vercel, stripe, supabase, wrangler, netlify, agent-browser)"
 
 npm_install_global() {
   local pkg="$1" cmd="${2:-$1}"
@@ -447,6 +459,7 @@ if has_cmd npm; then
   npm_install_global stripe
   npm_install_global supabase
   npm_install_global wrangler
+  npm_install_global netlify-cli netlify
   npm_install_global agent-browser
 else
   warn "npm not available — skipping public CLI installs"
