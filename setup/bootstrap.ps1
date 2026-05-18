@@ -12,10 +12,11 @@
 # What this installs:
 #   Phase 1: Git
 #   Phase 2: winget (package manager)
-#   Phase 3: Developer tools (fnm, jq, gh, fzf, bat, ripgrep, fd, tree)
+#   Phase 3: Developer tools (fnm, jq, gh, ripgrep, fd, bat, fzf, direnv, httpie,
+#            pandoc, poppler, imagemagick, ffmpeg, tesseract, yt-dlp)
 #   Phase 4: Node.js 24 + Python 3.13
 #   Phase 5: Claude Code CLI
-#   Phase 6: Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)
+#   Phase 6: Public CLIs (vercel, stripe, supabase, wrangler, netlify, agent-browser)
 #   Phase 7: Bring Your Own Keys (.env setup)
 #   Phase 8: AI GTM Skills (linked to ~/.claude/skills/)
 #   Phase 9: GitHub authentication
@@ -204,6 +205,21 @@ function Install-Winget {
 Install-Winget "fnm" "Schniz.fnm" "fnm"
 Install-Winget "jq" "jqlang.jq" "jq"
 Install-Winget "gh" "GitHub.cli" "gh"
+Install-Winget "ripgrep" "BurntSushi.ripgrep.MSVC" "rg"
+Install-Winget "fd" "sharkdp.fd" "fd"
+Install-Winget "bat" "sharkdp.bat" "bat"
+Install-Winget "fzf" "junegunn.fzf" "fzf"
+Install-Winget "direnv" "direnv.direnv" "direnv"
+Install-Winget "httpie" "HTTPie.HTTPie" "http"
+
+# Content / file-processing tools (used by docx, pdf, xlsx, pptx, one-pager,
+# microsite, proposal, kit, post-call-summary, contract-review skills)
+Install-Winget "pandoc" "JohnMacFarlane.Pandoc" "pandoc"
+Install-Winget "poppler" "oschwartz10612.Poppler" "pdftotext"
+Install-Winget "imagemagick" "ImageMagick.ImageMagick" "magick"
+Install-Winget "ffmpeg" "Gyan.FFmpeg" "ffmpeg"
+Install-Winget "tesseract" "UB-Mannheim.TesseractOCR" "tesseract"
+Install-Winget "yt-dlp" "yt-dlp.yt-dlp" "yt-dlp"
 
 # ── Phase 4: Runtimes ─────────────────────────────────────────
 Write-Phase 4 "Node.js $FNM_NODE_VERSION + Python $PYTHON_VERSION"
@@ -275,6 +291,7 @@ Install-NpmGlobal "vercel" "vercel"
 Install-NpmGlobal "stripe" "stripe"
 Install-NpmGlobal "supabase" "supabase"
 Install-NpmGlobal "wrangler" "wrangler"
+Install-NpmGlobal "netlify-cli" "netlify"
 Install-NpmGlobal "agent-browser" "agent-browser"
 
 # ── Phase 7: BYOK .env setup ──────────────────────────────────
