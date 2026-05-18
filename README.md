@@ -1,6 +1,6 @@
 # AI GTM Skills for Claude
 
-**16 ready-to-use AI agent skills for go-to-market and revenue leadership.** Meeting prep, prospect research, deal strategy, pipeline health, competitive intel, and more — all running locally in Claude Code.
+**43 ready-to-use AI agent skills for go-to-market and revenue operators.** Sales execution, marketing, competitive intel, file utilities, and daily operator workflows — all running locally in Claude Code.
 
 Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the [Pavilion](https://www.joinpavilion.com/) AI in GTM School.
 
@@ -27,7 +27,7 @@ Before installing anything, see what these skills produce:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/GTMify/aigtm/main/setup/bootstrap.sh)"
 ```
 
-This installs everything — Homebrew, Node.js, Python, Claude Code, and all 16 skills. Takes about 5 minutes. When it finishes, Claude launches automatically and walks you through a 2-minute profile setup.
+This installs everything — Homebrew, Node.js, Python, Claude Code, public CLIs (vercel/stripe/supabase/wrangler/agent-browser), and all skills. Takes about 5-7 minutes. The script optionally walks you through a Bring-Your-Own-Keys `.env` setup, then Claude launches and runs a 2-minute profile setup.
 
 **Already cloned the repo?**
 ```bash
@@ -49,53 +49,120 @@ No terminal needed. Open any skill folder below, copy the prompt from the **`COW
 
 ---
 
-## All 16 Skills
+## Bring Your Own Keys (BYOK)
+
+Most skills work fine with **no API keys** — Claude's built-in WebSearch handles research. But some skills become dramatically more powerful when wired to your own keys (Apollo for contact data, Hunter for email verification, Firecrawl for clean scraping, Vercel for one-click deploys, Stripe for proposal payments, etc.).
+
+The bootstrap script offers an interactive `.env` setup. You can also copy the template manually:
+
+```bash
+cp setup/env.example ~/.claude/.env
+# Edit ~/.claude/.env to fill in only the keys you use
+chmod 600 ~/.claude/.env
+```
+
+The full annotated key catalog with which-skill-uses-which mapping is in [`setup/env.example`](setup/env.example).
+
+The bootstrap script adds a line to your shell profile that auto-loads `~/.claude/.env` into every new terminal session.
+
+---
+
+## All Skills
 
 ### Sales Execution
 
-| Skill | What it does | Time saved |
-|-------|-------------|------------|
-| [Meeting Prep](skills/meeting-prep/) | Researches a company + person and produces a scannable briefing before your call | 15-25 min/call |
-| [Prospect Research](skills/prospect-research/) | Researches target accounts, finds decision-makers, drafts personalized outreach | 30-45 min/batch |
-| [Post-Call Summary](skills/post-call-summary/) | Turns raw call notes into action items, follow-up email, and CRM-ready summary | 15-20 min/call |
-| [Objection Handler](skills/objection-handler/) | Diagnoses stuck deals, prescribes recovery plays, and writes the exact messages to send | Deals saved, not time |
-| [Deal Strategy](skills/deal-strategy/) | MEDDIC assessment, stakeholder map, competitive positioning, and action plan for active deals | 30-45 min/deal |
+| Skill | What it does | Optional keys |
+|-------|--------------|---------------|
+| [Meeting Prep](skills/meeting-prep/) | Research a company + person and produce a pre-call briefing | FIRECRAWL, SERPER |
+| [Prospect Research](skills/prospect-research/) | Research target accounts, find decision-makers, draft outreach | APOLLO, HUNTER, FIRECRAWL |
+| [Cold Email](skills/cold-email/) | B2B cold emails with 4-touch follow-up sequences | — |
+| [Sequence](skills/sequence/) | Multi-channel outreach cadence (email + LinkedIn + phone) | SMARTLEAD, INSTANTLY, LEMLIST, HEYREACH |
+| [ABM](skills/abm/) | Account plan with buying committee map and 30-day play | APOLLO, CLEARBIT |
+| [Battlecard](skills/battlecard/) | Honest competitive battlecard against a named competitor | FIRECRAWL, SERPER |
+| [Referral](skills/referral/) | Warm-intro path finder with forwardable 2-message bundle | — |
+| [Post-Call Summary](skills/post-call-summary/) | Raw notes → action items + follow-up + CRM summary | — |
+| [Objection Handler](skills/objection-handler/) | Diagnose stuck deals, prescribe plays, write the messages | — |
+| [Deal Strategy](skills/deal-strategy/) | MEDDIC, stakeholder map, competitive positioning, action plan | — |
+| [Proposal](skills/proposal/) | Customer-facing proposal or SOW with procurement-ready terms | STRIPE |
+| [ROI Calculator](skills/roi-calculator/) | Risk-adjusted business case with CFO Q&A | — |
+| [One-Pager](skills/one-pager/) | Forwardable champion leave-behind doc | BRANDFETCH |
+
+### Marketing
+
+| Skill | What it does | Optional keys |
+|-------|--------------|---------------|
+| Launch *(Phase 2)* | Product/feature launch plan + content kit | — |
+| Campaign *(Phase 2)* | Multi-channel marketing campaign builder | — |
+| Messaging *(Phase 2)* | Positioning, value props, message hierarchy | — |
+| PMM *(Phase 2)* | Product-marketing artifact suite | — |
+| Programmatic SEO *(Phase 2)* | Template-based pages at scale | DATAFORSEO |
+| SEO Audit *(Phase 2)* | Technical + on-page SEO diagnostic | GA4, DATAFORSEO |
+| Competitor Alternatives *(Phase 2)* | "[Competitor] alternatives" landing pages | FIRECRAWL |
+| Pricing Strategy *(Phase 2)* | Tiers, packaging, willingness-to-pay analysis | — |
+| Marketing Psychology *(Phase 2)* | Apply mental models to campaigns and copy | — |
+| Kit *(Phase 2)* | Lead magnet content kits | — |
+
+### Cross-Functional
+
+| Skill | What it does | Optional keys |
+|-------|--------------|---------------|
+| [Brainstorm](skills/brainstorm/) | Structured multi-frame ideation with ranked output | EXA |
+| [Repurpose](skills/repurpose/) | Turn one asset into 5-10 derivatives across formats | — |
+| [Microsite](skills/microsite/) | Self-contained personalized HTML landing page | VERCEL, CLOUDFLARE, BRANDFETCH |
+| [Changelog](skills/changelog/) | User-facing release notes from git history | — |
+| [Decision Log](skills/decision-log/) | ADR-style decision capture | — |
+| [Roadmap](skills/roadmap/) | Prioritized roadmap with Now/Next/Later tiers | — |
 
 ### Pipeline & Forecasting
 
-| Skill | What it does | Time saved |
-|-------|-------------|------------|
-| [Pipeline Health](skills/pipeline-health/) | Audits your pipeline for stuck deals, single-threading, and coverage gaps | 30-60 min/week |
-| [Forecast Narrative](skills/forecast-narrative/) | Translates pipeline data into a commit/upside/risk narrative for your CRO or board | 45-60 min/cycle |
-| [Territory Analyzer](skills/territory-analyzer/) | Team-level view of rep performance, coverage gaps, whitespace, and reallocation recommendations | 1-2 hours/review |
+| Skill | What it does | Optional keys |
+|-------|--------------|---------------|
+| [Pipeline Health](skills/pipeline-health/) | Audit pipeline for stuck deals and coverage gaps | SALESFORCE, HUBSPOT |
+| [Forecast Narrative](skills/forecast-narrative/) | Pipeline data → commit/upside/risk narrative | SALESFORCE, HUBSPOT |
+| [Territory Analyzer](skills/territory-analyzer/) | Team-level performance, coverage, whitespace | SALESFORCE, HUBSPOT |
 
 ### Competitive & Market Intelligence
 
-| Skill | What it does | Time saved |
-|-------|-------------|------------|
-| [Competitive Intel](skills/competitive-intel/) | Monitors competitors for product launches, hiring signals, press, and pricing changes | 1-2 hours/week |
-| [Win/Loss Analyzer](skills/win-loss-analyzer/) | Analyzes deal outcomes for patterns, loss reasons, and actionable takeaways | 2-3 hours/quarter |
+| Skill | What it does | Optional keys |
+|-------|--------------|---------------|
+| [Competitive Intel](skills/competitive-intel/) | Monitor competitors for launches, hiring, press | FIRECRAWL, SERPER |
+| [Win/Loss Analyzer](skills/win-loss-analyzer/) | Analyze deal outcomes for patterns | — |
 
 ### Customer Success & Retention
 
-| Skill | What it does | Time saved |
-|-------|-------------|------------|
-| [QBR Builder](skills/qbr-builder/) | Builds customer-facing quarterly business reviews that lead with value, not features | 2-3 hours/QBR |
-| [Churn Early Warning](skills/churn-early-warning/) | Flags at-risk accounts by revenue impact and prescribes save plays before renewal | Catches risk 60-90 days earlier |
+| Skill | What it does | Optional keys |
+|-------|--------------|---------------|
+| [QBR Builder](skills/qbr-builder/) | Customer-facing QBR that leads with value | — |
+| [Churn Early Warning](skills/churn-early-warning/) | Flag at-risk accounts, prescribe save plays | SALESFORCE, HUBSPOT |
 
 ### Leadership & Strategy
 
-| Skill | What it does | Time saved |
-|-------|-------------|------------|
-| [Board Update](skills/board-update/) | Builds structured board or investor updates with revenue, pipeline, team, and strategic narrative | 2-3 hours/update |
-| [Hiring Brief](skills/hiring-brief/) | Scopes a role, writes a JD, provides comp guidance, and builds an interview scorecard | 3-4 hours/role |
+| Skill | What it does | Optional keys |
+|-------|--------------|---------------|
+| [Board Update](skills/board-update/) | Investor update with revenue, pipeline, narrative | — |
+| [Hiring Brief](skills/hiring-brief/) | Role scope + JD + comp + interview scorecard | — |
 
-### Productivity
+### Daily Operations
 
-| Skill | What it does | Time saved |
-|-------|-------------|------------|
-| [Weekly Planner](skills/weekly-planner/) | Synthesizes calendar, pipeline, and priorities into a focused weekly game plan | 30-45 min/week |
-| [Inbox Triage](skills/inbox-triage/) | Categorizes, prioritizes, and drafts responses for your email backlog | 20-30 min/day |
+| Skill | What it does | Optional keys |
+|-------|--------------|---------------|
+| [Weekly Planner](skills/weekly-planner/) | Calendar + pipeline + priorities → weekly game plan | — |
+| [Inbox Triage](skills/inbox-triage/) | Categorize, prioritize, draft email responses | — |
+| CRM *(Phase 3)* | Daily priorities dashboard from pasted CRM data | — |
+| Standup *(Phase 3)* | Morning brief that surfaces priorities and follow-ups | — |
+| Inbox Zero *(Phase 3)* | Triage assistant for pasted email subjects/threads | — |
+| Focus Time *(Phase 3)* | Time-block planner from pasted calendar | — |
+
+### File Utilities
+
+| Skill | What it does | Libraries |
+|-------|--------------|-----------|
+| [xlsx](skills/xlsx/) | Read/edit/create Excel and CSV spreadsheets | openpyxl, pandas |
+| [docx](skills/docx/) | Read/edit/create Word documents | python-docx, Pillow |
+| [pdf](skills/pdf/) | Extract/merge/split/create/OCR PDFs | pypdf, pdfplumber, weasyprint, ocrmypdf |
+| [pptx](skills/pptx/) | Read/edit/create PowerPoint decks | python-pptx |
+
+> *Phase 2 (marketing) and Phase 3 (daily operations) skills land in separate PRs and bring the total to 43.*
 
 ---
 
@@ -144,6 +211,12 @@ Check that skills are linked: `ls ~/.claude/skills/`. If empty, re-run `./setup/
 **"Permission denied" on Windows symlinks**
 Enable Developer Mode: Settings > Privacy & Security > For developers > Developer Mode. Or run PowerShell as Administrator.
 
+**Env vars not loading in my shell**
+The bootstrap adds a block to `~/.zshrc` (or PowerShell profile) that auto-sources `~/.claude/.env`. If you skipped that step, run `./setup/bootstrap.sh` again or add this line manually:
+```bash
+set -a; . ~/.claude/.env; set +a
+```
+
 **Want to verify your setup?**
 ```bash
 ./setup/bootstrap.sh --check    # macOS
@@ -156,7 +229,7 @@ Enable Developer Mode: Settings > Privacy & Security > For developers > Develope
 
 Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the Pavilion AI in GTM School. Questions? Reach out at scott@gtmify.io.
 
-These skills use Claude's built-in web search and file tools. No API keys, external services, or coding required for the Desktop/Cowork prompts. Claude Code skills may optionally use MCP servers for CRM integration.
+Skills use Claude's built-in web search and file tools out of the box. Optional API keys (Apollo, Hunter, Firecrawl, Vercel, Stripe, etc.) supercharge specific skills — see [`setup/env.example`](setup/env.example) for the full catalog.
 
 ---
 
