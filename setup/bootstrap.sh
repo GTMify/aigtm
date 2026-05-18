@@ -19,9 +19,11 @@
 #   Phase 3: Developer tools (mise, jq, gh, fzf, bat, ripgrep, fd, tree)
 #   Phase 4: Node.js 24 + Python 3.13 (via mise)
 #   Phase 5: Claude Code CLI
-#   Phase 6: AI GTM Skills (16 skills linked to ~/.claude/skills/)
-#   Phase 7: GitHub authentication
-#   Phase 8: Shell configuration
+#   Phase 6: Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)
+#   Phase 7: Bring Your Own Keys (.env setup)
+#   Phase 8: AI GTM Skills (linked to ~/.claude/skills/)
+#   Phase 9: GitHub authentication
+#   Phase 10: Shell configuration
 #
 # After setup, run 'claude' to start. On first launch, Claude walks you
 # through a 2-minute profile setup — your role, company, ICP, and competitors.
@@ -33,7 +35,7 @@ MISE_NODE_VERSION="24"
 MISE_PYTHON_VERSION="3.13"
 CLAUDE_DIR="$HOME/.claude"
 WORKSPACE="$HOME/claude"
-TOTAL_PHASES=8
+TOTAL_PHASES=10
 FAILED=0
 
 # ── Colors ─────────────────────────────────────────────────────
@@ -157,7 +159,21 @@ run_check() {
   phase 5 "Claude Code"
   check "Claude Code"  "has_cmd claude"
 
-  phase 6 "Skills"
+  phase 6 "Public CLIs (optional)"
+  check "vercel"       "has_cmd vercel"
+  check "stripe"       "has_cmd stripe"
+  check "supabase"     "has_cmd supabase"
+  check "wrangler"     "has_cmd wrangler"
+  check "agent-browser" "has_cmd agent-browser"
+
+  phase 7 ".env file"
+  if [ -f "$CLAUDE_DIR/.env" ]; then
+    ok ".env present at ~/.claude/.env"
+  else
+    warn "No ~/.claude/.env yet — most skills work without it"
+  fi
+
+  phase 8 "Skills"
   local skill_count=0
   if [ -d "$CLAUDE_DIR/skills" ]; then
     skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -mindepth 1 \( -type d -o -type l \) 2>/dev/null | wc -l | tr -d ' ')
@@ -165,14 +181,14 @@ run_check() {
   if [ "$skill_count" -ge 16 ]; then
     ok "Skills installed ($skill_count linked)"
   elif [ "$skill_count" -gt 0 ]; then
-    warn "Only $skill_count skills linked (expected 16)"
+    warn "Only $skill_count skills linked (expected 16+)"
     issues=$((issues + 1))
   else
     fail "No skills installed"
     issues=$((issues + 1))
   fi
 
-  phase 7 "GitHub auth"
+  phase 9 "GitHub auth"
   if gh auth status &>/dev/null 2>&1; then
     local gh_user
     gh_user=$(gh auth status 2>&1 | grep -oE 'Logged in to github.com as [^ ]+' | awk '{print $NF}')
@@ -182,7 +198,7 @@ run_check() {
     issues=$((issues + 1))
   fi
 
-  phase 8 "Shell + profile"
+  phase 10 "Shell + profile"
   if [ -f "$HOME/.zshrc" ] && grep -q "AIGTM_BOOTSTRAP_START" "$HOME/.zshrc"; then
     ok "Shell configured"
   else
@@ -225,8 +241,10 @@ echo "  run AI-powered GTM skills in Claude Code."
 echo
 echo "  What gets installed:"
 echo "    - Developer tools (Homebrew, Node.js, Python)"
+echo "    - Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)"
 echo "    - Claude Code CLI"
-echo "    - 16 AI GTM skills for sales, pipeline, and strategy"
+echo "    - AI GTM skills for sales, marketing, and operations"
+echo "    - Optional .env scaffold for Bring Your Own Keys (BYOK)"
 echo
 
 if ! $AUTO_YES; then
@@ -403,8 +421,115 @@ else
   fi
 fi
 
-# ── Phase 6: Repo + Skills ────────────────────────────────────
-phase 6 "AI GTM Skills"
+# ── Phase 6: Public CLIs ───────────────────────────────────────
+phase 6 "Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)"
+
+npm_install_global() {
+  local pkg="$1" cmd="${2:-$1}"
+  if has_cmd "$cmd"; then
+    ok "$cmd already installed"
+  else
+    info "Installing $pkg via npm..."
+    if npm install -g "$pkg" >/dev/null 2>&1; then
+      if has_cmd "$cmd"; then
+        ok "$cmd installed"
+      else
+        warn "$pkg installed but '$cmd' not on PATH yet"
+      fi
+    else
+      warn "$pkg install failed — skip (optional)"
+    fi
+  fi
+}
+
+if has_cmd npm; then
+  npm_install_global vercel
+  npm_install_global stripe
+  npm_install_global supabase
+  npm_install_global wrangler
+  npm_install_global agent-browser
+else
+  warn "npm not available — skipping public CLI installs"
+fi
+
+# ── Phase 7: Interactive .env setup (BYOK) ─────────────────────
+phase 7 "Bring Your Own Keys (.env setup)"
+
+ENV_FILE="$CLAUDE_DIR/.env"
+ENV_EXAMPLE="$REPO_DIR/setup/env.example"
+
+mkdir -p "$CLAUDE_DIR"
+
+if [ -f "$ENV_FILE" ]; then
+  ok ".env already exists at $ENV_FILE (skipping interactive setup)"
+elif $AUTO_YES; then
+  if [ -f "$ENV_EXAMPLE" ]; then
+    cp "$ENV_EXAMPLE" "$ENV_FILE"
+    chmod 600 "$ENV_FILE"
+    ok "Copied env.example to $ENV_FILE (auto-yes mode — edit manually to fill keys)"
+  else
+    warn "env.example not found in repo — skipping .env scaffold"
+  fi
+else
+  echo
+  echo "  Most skills work without any API keys — Claude's built-in WebSearch"
+  echo "  handles research. But some skills can be supercharged with your own"
+  echo "  keys (Apollo, Hunter, Firecrawl, Vercel, Stripe, etc.)."
+  echo
+  echo -en "  ${BOLD}Set up .env with your API keys now?${NC} [y/N] "
+  read -r env_answer
+
+  case "$env_answer" in
+    [Yy]*)
+      if [ -f "$ENV_EXAMPLE" ]; then
+        cp "$ENV_EXAMPLE" "$ENV_FILE"
+        chmod 600 "$ENV_FILE"
+        ok "Copied template to $ENV_FILE"
+
+        echo
+        echo "  I'll prompt you for the most common keys. Press Enter to skip any."
+        echo "  All values are stored locally in $ENV_FILE (chmod 600, gitignored)."
+        echo
+
+        prompt_key() {
+          local var="$1" desc="$2"
+          echo -en "    ${BLUE}$var${NC} ($desc): "
+          read -r value
+          if [ -n "$value" ]; then
+            awk -v k="$var" -v v="$value" '
+              $0 ~ "^"k"=" { print k"="v; next }
+              { print }
+            ' "$ENV_FILE" > "${ENV_FILE}.tmp" && mv "${ENV_FILE}.tmp" "$ENV_FILE"
+            ok "Set $var"
+          fi
+        }
+
+        prompt_key "ANTHROPIC_API_KEY" "Anthropic API"
+        prompt_key "OPENAI_API_KEY" "OpenAI API"
+        prompt_key "FIRECRAWL_API_KEY" "Firecrawl (web scraping)"
+        prompt_key "SERPER_API_KEY" "Serper (Google search)"
+        prompt_key "APOLLO_API_KEY" "Apollo (B2B contacts)"
+        prompt_key "HUNTER_API_KEY" "Hunter (email finder)"
+        prompt_key "HUBSPOT_API_KEY" "HubSpot CRM"
+        prompt_key "VERCEL_TOKEN" "Vercel (deploys)"
+        prompt_key "STRIPE_SECRET_KEY" "Stripe"
+
+        chmod 600 "$ENV_FILE"
+        ok ".env saved (chmod 600)"
+        echo
+        echo "  ${DIM}Edit $ENV_FILE anytime to add more keys.${NC}"
+      else
+        fail "env.example not found at $ENV_EXAMPLE"
+      fi
+      ;;
+    *)
+      info "Skipped .env setup — you can copy setup/env.example to ~/.claude/.env later"
+      ;;
+  esac
+fi
+
+# ── Phase 8: Repo + Skills ────────────────────────────────────
+phase 8 "AI GTM Skills"
 
 # If we came from curl, clone the repo first
 if $FROM_CURL; then
@@ -478,8 +603,8 @@ else
   fi
 fi
 
-# ── Phase 7: GitHub auth ──────────────────────────────────────
-phase 7 "GitHub authentication"
+# ── Phase 9: GitHub auth ──────────────────────────────────────
+phase 9 "GitHub authentication"
 
 if gh auth status &>/dev/null 2>&1; then
   local_gh_user=$(gh auth status 2>&1 | grep -oE 'Logged in to github.com as [^ ]+' | awk '{print $NF}')
@@ -499,8 +624,8 @@ else
   fi
 fi
 
-# ── Phase 8: Shell configuration ──────────────────────────────
-phase 8 "Shell configuration"
+# ── Phase 10: Shell configuration ─────────────────────────────
+phase 10 "Shell configuration"
 
 zshrc="$HOME/.zshrc"
 managed_block=$(cat << 'SHELL_BLOCK'
@@ -538,6 +663,13 @@ export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 alias gs="git status"
 alias gl="git log --oneline -20"
 alias gd="git diff"
+
+# ── BYOK env vars from ~/.claude/.env ──
+if [ -f "$HOME/.claude/.env" ]; then
+  set -a
+  . "$HOME/.claude/.env"
+  set +a
+fi
 
 # === AIGTM_BOOTSTRAP_END ===
 SHELL_BLOCK
