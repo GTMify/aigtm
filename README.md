@@ -1,8 +1,8 @@
 # AI GTM Skills for Claude
 
-**16 ready-to-use AI agent skills for go-to-market and revenue leadership.** Meeting prep, prospect research, deal strategy, pipeline health, competitive intel, and more — all running locally in Claude Code.
+**56 ready-to-use AI agent skills for go-to-market, revenue leadership, and small business operations.** Meeting prep, prospect research, deal strategy, pipeline health, competitive intel, cash flow forecasting, contract review, local marketing, and more — all running locally in Claude Code.
 
-Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the [Pavilion](https://www.joinpavilion.com/) AI in GTM School.
+Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the [Pavilion](https://www.joinpavilion.com/) AI in GTM School, expanded with operator and SMB-owner skill packs.
 
 ---
 
@@ -96,6 +96,42 @@ No terminal needed. Open any skill folder below, copy the prompt from the **`COW
 |-------|-------------|------------|
 | [Weekly Planner](skills/weekly-planner/) | Synthesizes calendar, pipeline, and priorities into a focused weekly game plan | 30-45 min/week |
 | [Inbox Triage](skills/inbox-triage/) | Categorizes, prioritizes, and drafts responses for your email backlog | 20-30 min/day |
+
+---
+
+## Running an SMB? Start here
+
+If you run a small or medium-sized business (1-50 people — services firm, retail, restaurant, agency, consultancy, e-commerce, trades), the 13 skills below turn Claude into a fractional CFO, COO, CMO, and CHRO. No CRM, no QuickBooks integration, no learning curve. You paste in what you have; Claude returns a usable artifact.
+
+### Money & finance
+
+| Skill | What it does |
+|-------|-------------|
+| [Bookkeeping Helper](skills/bookkeeping-helper/) | Categorizes transactions from a pasted CSV or statement, flags anomalies, produces a monthly P&L |
+| [Invoice Generator](skills/invoice-generator/) | Generates a clean, professional HTML invoice with payment terms, due date, and a cover email |
+| [Cash Flow Forecast](skills/cash-flow-forecast/) | 13-week rolling week-by-week cash projection with burn flags and scenario modeling |
+| [Tax Prep Helper](skills/tax-prep-helper/) | Quarterly estimates, 1099 prep, sales-tax-by-state — organizes the packet to send your CPA |
+
+### Customers & growth
+
+| Skill | What it does |
+|-------|-------------|
+| [Customer Support Triage](skills/customer-support-triage/) | Triages a pasted batch of customer messages, drafts routine replies, flags escalations |
+| [Review Response](skills/review-response/) | Drafts Google / Yelp / Trustpilot review replies — written for the next customer reading both |
+| [Local Marketing](skills/local-marketing/) | Google Business Profile audit + local SEO + neighborhood tactics for brick-and-mortar SMBs |
+| [Pricing Services](skills/pricing-services/) | Hourly vs. project vs. retainer vs. value-based pricing with cost-floor math and three-number quote |
+
+### Team & operations
+
+| Skill | What it does |
+|-------|-------------|
+| [Hiring Kit](skills/hiring-kit/) | JD, screening questions, interview plan, scorecard, and offer letter template — all in one pass |
+| [SOP Writer](skills/sop-writer/) | Turns a messy process description into a clean SOP with steps, exceptions, and a done-when checklist |
+| [Contract Review](skills/contract-review/) | Plain-English review of NDAs, MSAs, leases, SOWs — with red/yellow/green flags and suggested edits |
+| [Vendor Evaluation](skills/vendor-evaluation/) | Weighted scoring across vendor quotes — total cost, capability, stability, contract terms |
+| [Owner Dashboard](skills/owner-dashboard/) | Weekly one-page read on the state of the business — wins, issues, decisions needed |
+
+**Heads up on disclaimers.** Anything touching taxes, legal contracts, or financial advice produces operational scaffolding, not professional advice. Every SMB skill has a disclaimer at the top of its `SKILL.md` reminding you to consult a licensed CPA or attorney for binding decisions.
 
 ---
 
