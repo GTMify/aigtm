@@ -15,9 +15,11 @@
 #   Phase 3: Developer tools (fnm, jq, gh, fzf, bat, ripgrep, fd, tree)
 #   Phase 4: Node.js 24 + Python 3.13
 #   Phase 5: Claude Code CLI
-#   Phase 6: AI GTM Skills (16 skills linked to ~/.claude/skills/)
-#   Phase 7: GitHub authentication
-#   Phase 8: PowerShell profile configuration
+#   Phase 6: Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)
+#   Phase 7: Bring Your Own Keys (.env setup)
+#   Phase 8: AI GTM Skills (linked to ~/.claude/skills/)
+#   Phase 9: GitHub authentication
+#   Phase 10: PowerShell profile configuration
 #
 # After setup, run 'claude' to start. On first launch, Claude walks you
 # through a 2-minute profile setup — your role, company, ICP, and competitors.
@@ -33,7 +35,7 @@ $FNM_NODE_VERSION = "24"
 $PYTHON_VERSION = "3.13"
 $CLAUDE_DIR = "$env:USERPROFILE\.claude"
 $WORKSPACE = "$env:USERPROFILE\claude"
-$TOTAL_PHASES = 8
+$TOTAL_PHASES = 10
 $script:Failed = 0
 
 # ── Helpers ────────────────────────────────────────────────────
@@ -94,20 +96,31 @@ if ($Check) {
     Write-Phase 5 "Claude Code"
     Check-Tool "Claude Code" "claude"
 
-    Write-Phase 6 "Skills"
+    Write-Phase 6 "Public CLIs (optional)"
+    Check-Tool "vercel" "vercel"
+    Check-Tool "stripe" "stripe"
+    Check-Tool "supabase" "supabase"
+    Check-Tool "wrangler" "wrangler"
+    Check-Tool "agent-browser" "agent-browser"
+
+    Write-Phase 7 ".env file"
+    if (Test-Path "$CLAUDE_DIR\.env") { Write-Ok ".env present at ~/.claude/.env" }
+    else { Write-Warn "No ~/.claude/.env yet - most skills work without it" }
+
+    Write-Phase 8 "Skills"
     $skillCount = 0
     if (Test-Path "$CLAUDE_DIR\skills") {
         $skillCount = (Get-ChildItem "$CLAUDE_DIR\skills" -Directory -ErrorAction SilentlyContinue).Count
     }
     if ($skillCount -ge 16) { Write-Ok "Skills installed ($skillCount linked)" }
-    elseif ($skillCount -gt 0) { Write-Warn "Only $skillCount skills linked (expected 16)"; $issues++ }
+    elseif ($skillCount -gt 0) { Write-Warn "Only $skillCount skills linked (expected 16+)"; $issues++ }
     else { Write-Fail "No skills installed"; $issues++ }
 
-    Write-Phase 7 "GitHub auth"
+    Write-Phase 9 "GitHub auth"
     $ghAuth = gh auth status 2>&1
     if ($LASTEXITCODE -eq 0) { Write-Ok "GitHub authenticated" } else { Write-Fail "Not authenticated"; $issues++ }
 
-    Write-Phase 8 "Shell + profile"
+    Write-Phase 10 "Shell + profile"
     if ((Test-Path $PROFILE) -and (Select-String -Path $PROFILE -Pattern "AIGTM_BOOTSTRAP_START" -Quiet)) {
         Write-Ok "PowerShell profile configured"
     } else { Write-Warn "Profile not configured"; $issues++ }
@@ -136,8 +149,10 @@ Write-Host "  run AI-powered GTM skills in Claude Code."
 Write-Host ""
 Write-Host "  What gets installed:"
 Write-Host "    - Developer tools (Git, Node.js, Python)"
+Write-Host "    - Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)"
 Write-Host "    - Claude Code CLI"
-Write-Host "    - 16 AI GTM skills for sales, pipeline, and strategy"
+Write-Host "    - AI GTM skills for sales, marketing, and operations"
+Write-Host "    - Optional .env scaffold for Bring Your Own Keys (BYOK)"
 Write-Host ""
 
 if (-not $Yes) {
@@ -236,8 +251,99 @@ if (Test-Command claude) {
     }
 }
 
-# ── Phase 6: Skills ───────────────────────────────────────────
-Write-Phase 6 "AI GTM Skills"
+# ── Phase 6: Public CLIs ──────────────────────────────────────
+Write-Phase 6 "Public CLIs (vercel, stripe, supabase, wrangler, agent-browser)"
+
+function Install-NpmGlobal {
+    param($pkg, $cmd)
+    if (-not $cmd) { $cmd = $pkg }
+    if (Test-Command $cmd) {
+        Write-Ok "$cmd already installed"
+    } else {
+        if (Test-Command npm) {
+            Write-Info "Installing $pkg via npm..."
+            npm install -g $pkg 2>$null | Out-Null
+            if (Test-Command $cmd) { Write-Ok "$cmd installed" }
+            else { Write-Warn "$pkg install failed (optional)" }
+        } else {
+            Write-Warn "npm not available - skipping $pkg"
+        }
+    }
+}
+
+Install-NpmGlobal "vercel" "vercel"
+Install-NpmGlobal "stripe" "stripe"
+Install-NpmGlobal "supabase" "supabase"
+Install-NpmGlobal "wrangler" "wrangler"
+Install-NpmGlobal "agent-browser" "agent-browser"
+
+# ── Phase 7: BYOK .env setup ──────────────────────────────────
+Write-Phase 7 "Bring Your Own Keys (.env setup)"
+
+$envFile = "$CLAUDE_DIR\.env"
+$envExample = Join-Path $RepoDir "setup\env.example"
+
+New-Item -Path $CLAUDE_DIR -ItemType Directory -Force -ErrorAction SilentlyContinue | Out-Null
+
+if (Test-Path $envFile) {
+    Write-Ok ".env already exists at $envFile (skipping interactive setup)"
+} elseif ($Yes) {
+    if (Test-Path $envExample) {
+        Copy-Item $envExample $envFile
+        Write-Ok "Copied env.example to $envFile (auto-yes mode - edit manually to fill keys)"
+    } else {
+        Write-Warn "env.example not found in repo - skipping .env scaffold"
+    }
+} else {
+    Write-Host ""
+    Write-Host "  Most skills work without any API keys - Claude's built-in WebSearch"
+    Write-Host "  handles research. But some skills can be supercharged with your own"
+    Write-Host "  keys (Apollo, Hunter, Firecrawl, Vercel, Stripe, etc.)."
+    Write-Host ""
+    $envAnswer = Read-Host "  Set up .env with your API keys now? [y/N]"
+
+    if ($envAnswer -match '^[Yy]') {
+        if (Test-Path $envExample) {
+            Copy-Item $envExample $envFile
+            Write-Ok "Copied template to $envFile"
+
+            Write-Host ""
+            Write-Host "  I'll prompt you for the most common keys. Press Enter to skip any."
+            Write-Host ""
+
+            function Set-EnvKey {
+                param($var, $desc)
+                $val = Read-Host "    $var ($desc)"
+                if ($val) {
+                    $content = Get-Content $envFile
+                    $content = $content -replace "^$var=.*", "$var=$val"
+                    Set-Content -Path $envFile -Value $content
+                    Write-Ok "Set $var"
+                }
+            }
+
+            Set-EnvKey "ANTHROPIC_API_KEY" "Anthropic API"
+            Set-EnvKey "OPENAI_API_KEY" "OpenAI API"
+            Set-EnvKey "FIRECRAWL_API_KEY" "Firecrawl (web scraping)"
+            Set-EnvKey "SERPER_API_KEY" "Serper (Google search)"
+            Set-EnvKey "APOLLO_API_KEY" "Apollo (B2B contacts)"
+            Set-EnvKey "HUNTER_API_KEY" "Hunter (email finder)"
+            Set-EnvKey "HUBSPOT_API_KEY" "HubSpot CRM"
+            Set-EnvKey "VERCEL_TOKEN" "Vercel (deploys)"
+            Set-EnvKey "STRIPE_SECRET_KEY" "Stripe"
+
+            Write-Ok ".env saved"
+            Write-Host "  Edit $envFile anytime to add more keys." -ForegroundColor DarkGray
+        } else {
+            Write-Fail "env.example not found at $envExample"
+        }
+    } else {
+        Write-Info "Skipped .env setup - copy setup\env.example to ~/.claude/.env later"
+    }
+}
+
+# ── Phase 8: Skills ───────────────────────────────────────────
+Write-Phase 8 "AI GTM Skills"
 
 # Check for Developer Mode (required for symlinks without admin)
 $devMode = $false
@@ -279,8 +385,8 @@ if (Test-Path $skillsSource) {
     Write-Fail "Skills directory not found at $skillsSource"
 }
 
-# ── Phase 7: GitHub auth ──────────────────────────────────────
-Write-Phase 7 "GitHub authentication"
+# ── Phase 9: GitHub auth ──────────────────────────────────────
+Write-Phase 9 "GitHub authentication"
 
 $ghAuth = gh auth status 2>&1
 if ($LASTEXITCODE -eq 0) {
@@ -298,8 +404,8 @@ if ($LASTEXITCODE -eq 0) {
     }
 }
 
-# ── Phase 8: PowerShell profile ───────────────────────────────
-Write-Phase 8 "Shell configuration"
+# ── Phase 10: PowerShell profile ──────────────────────────────
+Write-Phase 10 "Shell configuration"
 
 $profileBlock = @'
 # === AIGTM_BOOTSTRAP_START ===
@@ -322,6 +428,20 @@ if (Get-Command npm -ErrorAction SilentlyContinue) {
 Set-Alias -Name gs -Value "git status" -Option AllScope -ErrorAction SilentlyContinue
 function gl { git log --oneline -20 }
 function gd { git diff }
+
+# ── BYOK env vars from ~/.claude/.env ──
+$envFile = "$env:USERPROFILE\.claude\.env"
+if (Test-Path $envFile) {
+    Get-Content $envFile | ForEach-Object {
+        if ($_ -match "^\s*([A-Za-z_][A-Za-z0-9_]*)=(.*)$") {
+            $name = $Matches[1]
+            $value = $Matches[2].Trim()
+            if ($value -ne "") {
+                Set-Item -Path "env:$name" -Value $value -ErrorAction SilentlyContinue
+            }
+        }
+    }
+}
 
 # === AIGTM_BOOTSTRAP_END ===
 '@
