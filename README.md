@@ -1,6 +1,6 @@
 # AI GTM Skills for Claude
 
-**43 ready-to-use AI agent skills for go-to-market and revenue operators.** Sales execution, marketing, competitive intel, file utilities, and daily operator workflows — all running locally in Claude Code.
+**61 ready-to-use AI agent skills for go-to-market operators, marketers, and small-business owners.** Sales execution, marketing, competitive intel, daily operator workflows, file utilities, and a full SMB owner-operator toolkit — all running locally in Claude Code.
 
 Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the [Pavilion](https://www.joinpavilion.com/) AI in GTM School.
 
@@ -27,7 +27,9 @@ Before installing anything, see what these skills produce:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/GTMify/aigtm/main/setup/bootstrap.sh)"
 ```
 
-This installs everything — Homebrew, Node.js, Python, Claude Code, public CLIs (vercel/stripe/supabase/wrangler/agent-browser), and all skills. Takes about 5-7 minutes. The script optionally walks you through a Bring-Your-Own-Keys `.env` setup, then Claude launches and runs a 2-minute profile setup.
+This installs everything — Homebrew, Node.js, Python, Claude Code, content tools (pandoc, ffmpeg, imagemagick, poppler, tesseract, yt-dlp), public CLIs (vercel, stripe, supabase, wrangler, netlify, agent-browser), and all 61 skills. Takes about 5-7 minutes. The script then walks you through an optional Bring-Your-Own-Keys `.env` setup, and Claude launches with a 2-minute profile interview.
+
+See the full breakdown in [What Gets Installed](#what-gets-installed) below.
 
 **Already cloned the repo?**
 ```bash
@@ -91,16 +93,16 @@ The bootstrap script adds a line to your shell profile that auto-loads `~/.claud
 
 | Skill | What it does | Optional keys |
 |-------|--------------|---------------|
-| Launch *(Phase 2)* | Product/feature launch plan + content kit | — |
-| Campaign *(Phase 2)* | Multi-channel marketing campaign builder | — |
-| Messaging *(Phase 2)* | Positioning, value props, message hierarchy | — |
-| PMM *(Phase 2)* | Product-marketing artifact suite | — |
-| Programmatic SEO *(Phase 2)* | Template-based pages at scale | DATAFORSEO |
-| SEO Audit *(Phase 2)* | Technical + on-page SEO diagnostic | GA4, DATAFORSEO |
-| Competitor Alternatives *(Phase 2)* | "[Competitor] alternatives" landing pages | FIRECRAWL |
-| Pricing Strategy *(Phase 2)* | Tiers, packaging, willingness-to-pay analysis | — |
-| Marketing Psychology *(Phase 2)* | Apply mental models to campaigns and copy | — |
-| Kit *(Phase 2)* | Lead magnet content kits | — |
+| [Launch](skills/launch/) | Product/feature launch plan + content kit | — |
+| [Campaign](skills/campaign/) | Multi-channel marketing campaign builder | — |
+| [Messaging](skills/messaging/) | Positioning, value props, message hierarchy | — |
+| [PMM](skills/pmm/) | Product-marketing artifact suite | — |
+| [Programmatic SEO](skills/programmatic-seo/) | Template-based pages at scale | DATAFORSEO |
+| [SEO Audit](skills/seo-audit/) | Technical + on-page SEO diagnostic | GA4, DATAFORSEO |
+| [Competitor Alternatives](skills/competitor-alternatives/) | "[Competitor] alternatives" landing pages | FIRECRAWL |
+| [Pricing Strategy](skills/pricing-strategy/) | Tiers, packaging, willingness-to-pay analysis | — |
+| [Marketing Psychology](skills/marketing-psychology/) | Apply mental models to campaigns and copy | — |
+| [Kit](skills/kit/) | Lead magnet content kits | — |
 
 ### Cross-Functional
 
@@ -148,10 +150,10 @@ The bootstrap script adds a line to your shell profile that auto-loads `~/.claud
 |-------|--------------|---------------|
 | [Weekly Planner](skills/weekly-planner/) | Calendar + pipeline + priorities → weekly game plan | — |
 | [Inbox Triage](skills/inbox-triage/) | Categorize, prioritize, draft email responses | — |
-| CRM *(Phase 3)* | Daily priorities dashboard from pasted CRM data | — |
-| Standup *(Phase 3)* | Morning brief that surfaces priorities and follow-ups | — |
-| Inbox Zero *(Phase 3)* | Triage assistant for pasted email subjects/threads | — |
-| Focus Time *(Phase 3)* | Time-block planner from pasted calendar | — |
+| [CRM](skills/crm/) | Daily priorities dashboard from pasted CRM data | — |
+| [Standup](skills/standup/) | Morning brief that surfaces priorities and follow-ups | — |
+| [Inbox Zero](skills/inbox-zero/) | Triage assistant for pasted email subjects/threads | — |
+| [Focus Time](skills/focus-time/) | Time-block planner from pasted calendar | — |
 
 ### File Utilities
 
@@ -162,7 +164,79 @@ The bootstrap script adds a line to your shell profile that auto-loads `~/.claud
 | [pdf](skills/pdf/) | Extract/merge/split/create/OCR PDFs | pypdf, pdfplumber, weasyprint, ocrmypdf |
 | [pptx](skills/pptx/) | Read/edit/create PowerPoint decks | python-pptx |
 
-> *Phase 2 (marketing) and Phase 3 (daily operations) skills land in separate PRs and bring the total to 43.*
+### Running an SMB? Start Here
+
+A complete fractional CFO / COO / CHRO / CMO toolkit for owners of small businesses (1-50 employees). All skills work with pasted data — no QuickBooks/Stripe/Gmail integration required. Skills touching tax, legal, or finance carry plain-English disclaimers.
+
+**Money & finance**
+
+| Skill | What it does |
+|-------|--------------|
+| [Bookkeeping Helper](skills/bookkeeping-helper/) | Categorize transactions from a pasted statement, flag anomalies, produce a monthly P&L summary |
+| [Invoice Generator](skills/invoice-generator/) | Create professional invoices with payment terms and branding |
+| [Cash Flow Forecast](skills/cash-flow-forecast/) | 13-week rolling cash projection; flags burn risk |
+| [Tax Prep Helper](skills/tax-prep-helper/) | Quarterly estimates, 1099 prep, sales-tax primer — surfaces what to send to your CPA |
+
+**Customers & growth**
+
+| Skill | What it does |
+|-------|--------------|
+| [Customer Support Triage](skills/customer-support-triage/) | Triage a batch of customer messages by urgency, draft responses, flag escalations |
+| [Review Response](skills/review-response/) | Draft on-brand replies to Google / Yelp / Trustpilot reviews |
+| [Local Marketing](skills/local-marketing/) | Google Business Profile optimization + neighborhood marketing checklist |
+| [Pricing Services](skills/pricing-services/) | Hourly vs. value vs. retainer vs. project pricing with margin math |
+
+**Team & operations**
+
+| Skill | What it does |
+|-------|--------------|
+| [Hiring Kit](skills/hiring-kit/) | JD + screening questions + interview rubric + offer letter template |
+| [SOP Writer](skills/sop-writer/) | Turn a process description into a clean SOP with steps, owner, and exception handling |
+| [Contract Review](skills/contract-review/) | Plain-English summary + risky-clause flags for vendor, lease, MSA, NDA |
+| [Vendor Evaluation](skills/vendor-evaluation/) | Score competing quotes against a weighted rubric |
+| [Owner Dashboard](skills/owner-dashboard/) | Weekly review of revenue, cash, top issues, top wins, decisions needed |
+
+---
+
+## What Gets Installed
+
+The bootstrap script runs **10 phases** end-to-end. Here's everything it installs:
+
+| Phase | Tool | What it is |
+|:-:|:--|:--|
+| 1 | Xcode Command Line Tools | git + compilers (macOS) |
+| 2 | Homebrew / winget | Package manager |
+| 3 | `mise` / `fnm` | Runtime version manager |
+| 3 | `jq` | JSON parser |
+| 3 | `gh` | GitHub CLI |
+| 3 | `fzf` | Fuzzy finder (Ctrl+R history) |
+| 3 | `bat` | `cat` with syntax highlighting |
+| 3 | `ripgrep` (`rg`) | Fast grep replacement |
+| 3 | `fd` | Fast `find` replacement |
+| 3 | `tree` | Directory tree viewer |
+| 3 | `direnv` | Per-directory env vars |
+| 3 | `httpie` (`http`) | Friendlier curl for API exploration |
+| 3 | `pandoc` | Markdown ↔ docx / pdf / html conversion |
+| 3 | `poppler` (`pdftotext`) | Extract text from PDFs |
+| 3 | `imagemagick` (`magick`) | Image manipulation |
+| 3 | `ffmpeg` | Audio / video processing |
+| 3 | `tesseract` | OCR for scanned PDFs and images |
+| 3 | `yt-dlp` | Download YouTube videos for analysis |
+| 4 | Node.js 24 | via mise / fnm |
+| 4 | Python 3.13 | via mise (macOS) |
+| 5 | **Claude Code CLI** | `@anthropic-ai/claude-code` from npm |
+| 6 | `vercel` | One-click deploys for microsites and one-pagers |
+| 6 | `stripe` | Payments CLI (used by Proposal skill) |
+| 6 | `supabase` | Supabase project + database management |
+| 6 | `wrangler` | Cloudflare Workers and Pages |
+| 6 | `netlify` | Vercel alternative for static hosting |
+| 6 | `agent-browser` | Token-efficient browser automation |
+| 7 | `.env` BYOK setup | Interactive prompts → writes `~/.claude/.env` (chmod 600) |
+| 8 | 61 GTM skills | Symlinked into `~/.claude/skills/` |
+| 9 | `gh auth login` | Interactive GitHub auth |
+| 10 | Shell configuration | Managed block in `~/.zshrc` or PowerShell profile (PATH, fzf, env auto-source, aliases) |
+
+The script is **idempotent** — re-running it heals missing pieces without breaking anything that's already there. Run `./setup/bootstrap.sh --check` (macOS) or `.\setup\bootstrap.ps1 -Check` (Windows) for a read-only health report.
 
 ---
 
