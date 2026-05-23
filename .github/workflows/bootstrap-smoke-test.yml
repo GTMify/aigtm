@@ -1,0 +1,123 @@
+name: Bootstrap Smoke Test
+
+# Validates the bootstrap scripts on clean GitHub-hosted runners.
+# These runners are ephemeral and approximate (not identical to) a clean
+# end-user machine — Homebrew, git, gh, and Xcode CLT are pre-installed on
+# macos-latest, and winget + git are pre-installed on windows-latest. The
+# bootstrap scripts are idempotent and handle the "already installed" cases
+# correctly, so a passing CI run is strong evidence that the scripts will
+# also work on a truly clean machine.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'setup/**'
+      - 'skills/**'
+      - '.github/workflows/bootstrap-smoke-test.yml'
+  pull_request:
+    paths:
+      - 'setup/**'
+      - 'skills/**'
+      - '.github/workflows/bootstrap-smoke-test.yml'
+  workflow_dispatch:
+
+jobs:
+  macos:
+    name: macOS bootstrap
+    runs-on: macos-latest
+    timeout-minutes: 30
+    env:
+      # Lets gh auth status succeed without an interactive login during the script.
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run bootstrap.sh (install)
+        run: bash ./setup/bootstrap.sh --yes --no-launch
+
+      - name: Verify install with --check
+        run: bash ./setup/bootstrap.sh --check
+
+      - name: Verify 16 skills linked into ~/.claude/skills
+        run: |
+          count=$(find "$HOME/.claude/skills" -maxdepth 1 -mindepth 1 \( -type d -o -type l \) | wc -l | tr -d ' ')
+          echo "Found $count skills:"
+          ls -la "$HOME/.claude/skills"
+          if [ "$count" -lt 16 ]; then
+            echo "::error::Expected at least 16 skills, got $count"
+            exit 1
+          fi
+
+      - name: Verify every skill has SKILL.md and COWORK-PROMPT.md
+        run: |
+          missing=0
+          for d in skills/*/; do
+            name=$(basename "$d")
+            for required in SKILL.md COWORK-PROMPT.md; do
+              if [ ! -f "$d/$required" ]; then
+                echo "::error::Missing $required in skill: $name"
+                missing=$((missing + 1))
+              fi
+            done
+          done
+          if [ "$missing" -gt 0 ]; then
+            echo "::error::$missing required files missing across skills"
+            exit 1
+          fi
+          echo "All 16 skills have SKILL.md and COWORK-PROMPT.md"
+
+  windows:
+    name: Windows bootstrap
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run bootstrap.ps1 (install)
+        shell: pwsh
+        run: |
+          .\setup\bootstrap.ps1 -Yes
+
+      - name: Verify install with -Check
+        shell: pwsh
+        run: |
+          .\setup\bootstrap.ps1 -Check
+
+      - name: Verify 16 skills linked into %USERPROFILE%\.claude\skills
+        shell: pwsh
+        run: |
+          $skillsDir = Join-Path $env:USERPROFILE ".claude\skills"
+          if (-not (Test-Path $skillsDir)) {
+              Write-Error "Skills directory does not exist: $skillsDir"
+              exit 1
+          }
+          $count = (Get-ChildItem $skillsDir -Directory).Count
+          Write-Host "Found $count skills:"
+          Get-ChildItem $skillsDir | Select-Object Name, LinkType
+          if ($count -lt 16) {
+              Write-Error "Expected at least 16 skills, got $count"
+              exit 1
+          }
+
+      - name: Verify every skill has SKILL.md and COWORK-PROMPT.md
+        shell: pwsh
+        run: |
+          $missing = 0
+          foreach ($d in (Get-ChildItem skills -Directory)) {
+              foreach ($required in @('SKILL.md','COWORK-PROMPT.md')) {
+                  if (-not (Test-Path (Join-Path $d.FullName $required))) {
+                      Write-Host "::error::Missing $required in skill: $($d.Name)"
+                      $missing++
+                  }
+              }
+          }
+          if ($missing -gt 0) {
+              Write-Error "$missing required files missing across skills"
+              exit 1
+          }
+          Write-Host "All 16 skills have SKILL.md and COWORK-PROMPT.md"

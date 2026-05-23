@@ -11,6 +11,7 @@
 #   Flags:
 #     --check      Read-only health report (no changes)
 #     --yes        Skip confirmation prompt
+#     --no-launch  Don't auto-launch claude at the end (for CI / scripted runs)
 #     --help       Show this help
 #
 # What this installs:
@@ -103,13 +104,15 @@ run_or_fail() {
 # ── Argument parsing ───────────────────────────────────────────
 MODE="install"
 AUTO_YES=false
+NO_LAUNCH=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --check)  MODE="check"; shift ;;
-    --yes|-y) AUTO_YES=true; shift ;;
+    --check)      MODE="check"; shift ;;
+    --yes|-y)     AUTO_YES=true; shift ;;
+    --no-launch)  NO_LAUNCH=true; shift ;;
     --help|-h)
-      head -28 "${BASH_SOURCE[0]}" | tail -26
+      head -29 "${BASH_SOURCE[0]}" | tail -27
       exit 0
       ;;
     *)
@@ -733,6 +736,12 @@ echo -e "    ${DIM}\"Prep me for my call with Acme Corp\"${NC}"
 echo -e "    ${DIM}\"Audit my pipeline\"${NC}"
 echo -e "    ${DIM}\"Draft outreach for these 5 accounts\"${NC}"
 echo
+
+# Skip auto-launch in --no-launch mode (CI / scripted runs)
+if $NO_LAUNCH; then
+  echo -e "  ${DIM}--no-launch set; skipping claude auto-launch.${NC}"
+  exit 0
+fi
 
 # If repo exists, launch claude from it so CLAUDE.md onboarding triggers
 if [ -n "$REPO_DIR" ] && [ -d "$REPO_DIR" ]; then

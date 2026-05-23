@@ -6,6 +6,18 @@ Built by [Scott Wueschinski](https://linkedin.com/in/scottwueschinski) for the [
 
 ---
 
+## For the AI in GTM School cohort
+
+If you're here from Pavilion's **Operations: Power Prompting for Revenue Teams** session (Q2 2026), this is your toolkit. Three things to know before you install:
+
+1. **Install once, customize forever.** The bootstrap script gets you fully set up in ~5 minutes. It then runs a 2-minute onboarding flow that captures your role, company, ICP, and competitors — that profile travels into every skill so the outputs feel like they came from inside your company, not from a generic assistant.
+2. **The class-day move is customization, not installation.** Install before class on Tuesday so we spend Wednesday's session customizing skills together rather than configuring laptops. Pre-class Slack drop has the install paths.
+3. **The Six-Layer Power Prompt Stack** — Context → Role → Task → Constraints → Examples → Output Spec — is the framework you'll see in every `SKILL.md` file. The class walks through it once; the takeaway page below holds the field-kit version you can reference forever.
+
+**Class takeaway page:** [aigtmschool2026q2.vercel.app/power-prompting](https://aigtmschool2026q2.vercel.app/power-prompting) *(goes live May 27, 2026 after Session 5)*
+
+---
+
 ## See It in Action
 
 Before installing anything, see what these skills produce:
