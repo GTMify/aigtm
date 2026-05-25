@@ -18,6 +18,26 @@ If you're here from Pavilion's **Operations: Power Prompting for Revenue Teams**
 
 ---
 
+## Start Here — 5 Skills (101)
+
+61 skills is a firehose. If this is your first install, ignore the other 56 for the first week and run these five. They cover the full revenue motion, every one fires on a natural phrase, and they're the same five the Session 5 demos walk through:
+
+| Skill | Trigger phrase | When you'd reach for it |
+|---|---|---|
+| [Meeting Prep](skills/meeting-prep/) | *"prep me for my call with [company]"* | Before any external meeting |
+| [Prospect Research](skills/prospect-research/) | *"research [company]"* | Account warm-up; outbound list work |
+| [Deal Strategy](skills/deal-strategy/) | *"deal strategy for [account]"* | Mid-funnel deal you need a plan on |
+| [Pipeline Health](skills/pipeline-health/) | *"audit my pipeline"* | Monday morning, end of week, commit calls |
+| [Post-Call Summary](skills/post-call-summary/) | *"summarize my call"* | Within 10 min of any customer call |
+
+Customize **Layer 1 (Context)** in any one of them with your company / ICP / competitors and the output quality jumps an order of magnitude. The bootstrap onboarding sets a global Context in `~/.claude/CLAUDE.md` — every skill inherits it.
+
+## Once You're Fluent (201)
+
+When the Six-Layer Stack feels obvious and you want the moves that compound across skills — chaining, custom Layer 1 patterns, anti-hallucination constraints at scale, JSON output for chained pipelines, and *when not to use a skill* — read the 201 companion: **[Power Prompting 201](https://aigtmschool2026q2.vercel.app/power-prompting-201)**.
+
+---
+
 ## See It in Action
 
 Before installing anything, see what these skills produce:
