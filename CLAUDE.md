@@ -2,6 +2,8 @@
 
 This repo contains 16 ready-to-use AI agent skills for go-to-market and revenue leadership. Skills are installed to `~/.claude/skills/` by the bootstrap script.
 
+**First week?** Start with five: `meeting-prep`, `prospect-research`, `deal-strategy`, `pipeline-health`, `post-call-summary`. They cover the full revenue motion and are the same five the Session 5 demos walk through. Once those feel automatic, the [Power Prompting 201](https://aigtmschool2026q2.vercel.app/power-prompting-201) reference covers the compounding moves (chaining, custom Layer 1 patterns, anti-hallucination constraints, JSON output, when *not* to use a skill).
+
 ## Available Skills
 
 | Skill | Trigger Phrases |
