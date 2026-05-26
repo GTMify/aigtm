@@ -14,6 +14,8 @@ If you're here from Pavilion's **Operations: Power Prompting for Revenue Teams**
 2. **The class-day move is customization, not installation.** Install before class on Tuesday so we spend Wednesday's session customizing skills together rather than configuring laptops. Pre-class Slack drop has the install paths.
 3. **The Six-Layer Power Prompt Stack** — Context → Role → Task → Constraints → Examples → Output Spec — is the framework you'll see in every `SKILL.md` file. The class walks through it once; the takeaway page below holds the field-kit version you can reference forever.
 
+> **New to this repo?** 61 skills is a lot. Don't try to learn them all in week one — jump to **[Start Here — 5 Skills](#start-here--5-skills-101)** below for the five-skill starter set that covers the full revenue motion. The other 56 will still be there when you want them.
+
 **Class takeaway page:** [aigtmschool2026q2.vercel.app/power-prompting](https://aigtmschool2026q2.vercel.app/power-prompting) *(goes live May 27, 2026 after Session 5)*
 
 ---
