@@ -81,7 +81,10 @@ Requires winget (built into Windows 11, available via App Installer on Windows 1
 
 ### Claude Desktop / Cowork (no install required)
 
-No terminal needed. Open any skill folder below, copy the prompt from the **`COWORK-PROMPT.md`** file, paste it into Claude, fill in the `[bracketed fields]`, and go.
+No terminal needed. Two ways in:
+
+1. **One-shot install** — see [`COWORK.md`](COWORK.md). Either connect this repo as a Cowork knowledge source, or paste the single master prompt and unlock all 62 skills in one message.
+2. **Per-skill copy-paste** — open any skill folder below, copy the prompt from its **`COWORK-PROMPT.md`** file, paste into Claude, fill in the `[bracketed fields]`, and go.
 
 ---
 
