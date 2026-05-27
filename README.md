@@ -136,6 +136,7 @@ The bootstrap script adds a line to your shell profile that auto-loads `~/.claud
 | [PMM](skills/pmm/) | Product-marketing artifact suite | — |
 | [Programmatic SEO](skills/programmatic-seo/) | Template-based pages at scale | DATAFORSEO |
 | [SEO Audit](skills/seo-audit/) | Technical + on-page SEO diagnostic | GA4, DATAFORSEO |
+| [Website Audit](skills/website-audit/) | Buyer's-eye marketing audit of a company website with letter-graded scorecard | — |
 | [Competitor Alternatives](skills/competitor-alternatives/) | "[Competitor] alternatives" landing pages | FIRECRAWL |
 | [Pricing Strategy](skills/pricing-strategy/) | Tiers, packaging, willingness-to-pay analysis | — |
 | [Marketing Psychology](skills/marketing-psychology/) | Apply mental models to campaigns and copy | — |
