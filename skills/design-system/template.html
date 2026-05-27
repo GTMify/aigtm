@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[Your Brand] — Design System Template</title>
+
+  <!--
+  ═══════════════════════════════════════════════════════════════════════════
+  DESIGN SYSTEM TEMPLATE
+  Built for the Pavilion class by Scott Wueschinski
+  ═══════════════════════════════════════════════════════════════════════════
+
+  HOW TO USE THIS FILE:
+
+  1. Search-and-replace `[Your Brand]` with your company name.
+  2. Edit the CSS variables in `:root` below — colors, fonts, spacing.
+     Every value is commented with what it controls.
+  3. Swap the Google Fonts `<link>` for your typefaces.
+  4. Replace placeholder copy (hero, stats, pillars, testimonial) with
+     your real messaging.
+  5. Open in a browser — this single file IS your design system.
+     Share the URL or PDF-print it for designers, devs, and partners.
+
+  WHY A DESIGN SYSTEM:
+  A design system is a single source of truth for how your brand looks
+  and behaves on screen. It eliminates one-off decisions, accelerates
+  build time, and keeps every page, deck, and email consistent.
+  ═══════════════════════════════════════════════════════════════════════════
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- CHANGE ME: swap fonts to match your brand -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* ─── BRAND COLORS — CHANGE ME ─── */
+      --color-bg:             #FAFAF7;  /* page background */
+      --color-surface:        #FFFFFF;  /* card / panel surface */
+      --color-ink:            #1A1A1A;  /* primary text */
+      --color-ink-muted:      #5C5C5C;  /* secondary text */
+      --color-primary:        #2C5F2D;  /* primary brand / CTA */
+      --color-primary-dark:   #1F4520;  /* hover state for primary */
+      --color-primary-light:  #97BC62;  /* tint of primary */
+      --color-accent:         #C9A55C;  /* accent / highlight */
+      --color-neutral:        #E5E2DC;  /* dividers, borders, chips */
+      --color-dark:           #0F1419;  /* dark sections */
+
+      /* ─── SEMANTIC COLORS ─── */
+      --color-success:        #4A7C59;
+      --color-warning:        #D4882A;
+      --color-error:          #C04A3C;
+      --color-info:           #4A6FA5;
+
+      /* ─── TYPOGRAPHY ─── */
+      --font-heading: 'Fraunces', Georgia, serif;  /* CHANGE ME */
+      --font-body:    'Inter', system-ui, sans-serif;  /* CHANGE ME */
+
+      /* ─── SPACING SCALE ─── */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 16px;
+      --space-4: 24px;
+      --space-5: 32px;
+      --space-6: 48px;
+      --space-7: 64px;
+      --space-8: 96px;
+
+      /* ─── RADIUS + SHADOW ─── */
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --radius-pill: 999px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-ink);
+      background: var(--color-bg);
+      line-height: 1.6;
+    }
+
+    /* ─── SIDEBAR NAV ─── */
+    .toc {
+      position: fixed; top: 0; left: 0;
+      width: 220px; height: 100vh;
+      background: var(--color-dark);
+      padding: var(--space-4) var(--space-3);
+      overflow-y: auto; z-index: 100;
+    }
+    .toc h3 {
+      font-family: var(--font-heading);
+      color: var(--color-accent);
+      font-size: 14px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: var(--space-3);
+    }
+    .toc a {
+      display: block;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 13px; padding: 6px 0;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--color-accent); }
+
+    .main { margin-left: 220px; }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      padding: var(--space-7) var(--space-6);
+      border-bottom: 1px solid var(--color-neutral);
+    }
+    .section--surface { background: var(--color-surface); }
+    .section--dark { background: var(--color-dark); color: var(--color-bg); }
+    .section--dark .section-subtitle { color: rgba(255,255,255,0.55); }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 32px; font-weight: 500;
+      margin-bottom: var(--space-1);
+    }
+    .section-subtitle {
+      color: var(--color-ink-muted);
+      font-size: 15px;
+      margin-bottom: var(--space-6);
+    }
+    .section-label {
+      display: inline-block;
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--color-accent);
+      padding: 4px 10px;
+      border: 1px solid var(--color-accent);
+      border-radius: var(--radius-pill);
+      margin-bottom: var(--space-3);
+    }
+
+    /* ─── COVER ─── */
+    .cover {
+      background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-neutral) 50%, var(--color-primary-light) 100%);
+      padding: var(--space-8) var(--space-6);
+      text-align: center;
+    }
+    .cover-eyebrow {
+      font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--color-primary-dark);
+      margin-bottom: var(--space-3);
+    }
+    .cover h1 {
+      font-family: var(--font-heading);
+      font-size: 72px; font-weight: 400;
+      line-height: 1.05;
+      margin-bottom: var(--space-3);
+      letter-spacing: -0.02em;
+    }
+    .cover p {
+      font-size: 20px; color: var(--color-ink-muted);
+      max-width: 600px; margin: 0 auto;
+    }
+
+    /* ─── COLOR SWATCHES ─── */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--space-3);
+    }
+    .swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--color-surface);
+      box-shadow: var(--shadow-sm);
+    }
+    .swatch-color { height: 100px; }
+    .swatch-meta {
+      padding: var(--space-3);
+      font-size: 12px;
+    }
+    .swatch-name {
+      font-weight: 600; margin-bottom: 4px;
+      color: var(--color-ink);
+    }
+    .swatch-hex {
+      color: var(--color-ink-muted);
+      font-family: ui-monospace, monospace;
+    }
+
+    /* ─── TYPOGRAPHY SAMPLES ─── */
+    .type-sample {
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--color-neutral);
+    }
+    .type-sample:last-child { border-bottom: none; }
+    .type-label {
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--color-ink-muted);
+      margin-bottom: var(--space-2);
+    }
+    .type-h1 { font-family: var(--font-heading); font-size: 64px; font-weight: 400; line-height: 1.1; }
+    .type-h2 { font-family: var(--font-heading); font-size: 48px; font-weight: 500; line-height: 1.15; }
+    .type-h3 { font-family: var(--font-heading); font-size: 32px; font-weight: 500; line-height: 1.2; }
+    .type-h4 { font-family: var(--font-heading); font-size: 24px; font-weight: 600; }
+    .type-body-lg { font-size: 18px; line-height: 1.6; }
+    .type-body { font-size: 16px; line-height: 1.6; }
+    .type-small { font-size: 13px; color: var(--color-ink-muted); }
+    .type-mono { font-family: ui-monospace, 'SF Mono', monospace; font-size: 14px; }
+
+    /* ─── BUTTONS ─── */
+    .button-row {
+      display: flex; flex-wrap: wrap;
+      gap: var(--space-3); align-items: center;
+    }
+    .btn {
+      font-family: var(--font-body);
+      font-size: 15px; font-weight: 500;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn--primary {
+      background: var(--color-primary);
+      color: var(--color-surface);
+    }
+    .btn--primary:hover { background: var(--color-primary-dark); }
+    .btn--secondary {
+      background: transparent;
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+    .btn--secondary:hover { background: var(--color-primary); color: var(--color-surface); }
+    .btn--ghost {
+      background: transparent;
+      color: var(--color-ink);
+    }
+    .btn--ghost:hover { background: var(--color-neutral); }
+    .btn--lg { padding: 16px 32px; font-size: 16px; }
+    .btn--sm { padding: 8px 16px; font-size: 13px; }
+
+    /* ─── CARDS ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-4);
+    }
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-neutral);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .card-icon {
+      width: 48px; height: 48px;
+      background: var(--color-primary-light);
+      color: var(--color-primary-dark);
+      border-radius: var(--radius-md);
+      display: grid; place-items: center;
+      font-size: 22px; font-weight: 600;
+      margin-bottom: var(--space-3);
+    }
+    .card h4 {
+      font-family: var(--font-heading);
+      font-size: 20px; margin-bottom: var(--space-2);
+    }
+    .card p { color: var(--color-ink-muted); font-size: 14px; }
+
+    /* ─── BADGES ─── */
+    .badge {
+      display: inline-block;
+      font-size: 12px; font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.3px;
+    }
+    .badge--success { background: rgba(74,124,89,0.15); color: var(--color-success); }
+    .badge--warning { background: rgba(212,136,42,0.15); color: var(--color-warning); }
+    .badge--error   { background: rgba(192,74,60,0.15); color: var(--color-error); }
+    .badge--info    { background: rgba(74,111,165,0.15); color: var(--color-info); }
+    .badge--neutral { background: var(--color-neutral); color: var(--color-ink); }
+
+    /* ─── FORMS ─── */
+    .form-group { margin-bottom: var(--space-4); max-width: 480px; }
+    .form-label {
+      display: block;
+      font-size: 13px; font-weight: 500;
+      margin-bottom: var(--space-2);
+      color: var(--color-ink);
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: var(--font-body); font-size: 15px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-neutral);
+      border-radius: var(--radius-md);
+      color: var(--color-ink);
+      transition: border-color 0.15s;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(44,95,45,0.1);
+    }
+    .form-helper {
+      font-size: 12px; color: var(--color-ink-muted);
+      margin-top: 4px;
+    }
+
+    /* ─── NAV PREVIEW ─── */
+    .nav-preview {
+      background: var(--color-surface);
+      padding: 18px var(--space-5);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 22px; font-weight: 600;
+      color: var(--color-primary);
+    }
+    .nav-links { display: flex; gap: var(--space-4); }
+    .nav-links a {
+      color: var(--color-ink);
+      text-decoration: none;
+      font-size: 14px; font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--color-primary); }
+
+    /* ─── PAGE PREVIEW HERO ─── */
+    .hero {
+      background: var(--color-dark);
+      color: var(--color-bg);
+      padding: var(--space-8) var(--space-6);
+      text-align: center;
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-5);
+    }
+    .hero h2 {
+      font-family: var(--font-heading);
+      font-size: 56px; font-weight: 400;
+      line-height: 1.1; margin-bottom: var(--space-3);
+    }
+    .hero p {
+      font-size: 18px; max-width: 560px;
+      margin: 0 auto var(--space-4); opacity: 0.8;
+    }
+
+    /* ─── STATS BAR ─── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--space-4);
+      padding: var(--space-5);
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--space-5);
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: var(--font-heading);
+      font-size: 40px; font-weight: 500;
+      color: var(--color-primary);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 12px; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--color-ink-muted);
+      margin-top: var(--space-2);
+    }
+
+    /* ─── TESTIMONIAL ─── */
+    .testimonial {
+      background: var(--color-primary-light);
+      color: var(--color-dark);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+    .testimonial-quote {
+      font-family: var(--font-heading);
+      font-size: 24px; font-style: italic;
+      line-height: 1.4; margin-bottom: var(--space-4);
+    }
+    .testimonial-attr { font-size: 14px; font-weight: 600; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .toc { display: none; }
+      .main { margin-left: 0; }
+      .section { padding: var(--space-5) var(--space-4); }
+      .cover h1 { font-size: 48px; }
+      .type-h1 { font-size: 40px; }
+      .type-h2 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─────────────── SIDEBAR ─────────────── -->
+  <nav class="toc">
+    <h3>Design System</h3>
+    <a href="#cover">Cover</a>
+    <a href="#colors">Colors</a>
+    <a href="#typography">Typography</a>
+    <a href="#buttons">Buttons</a>
+    <a href="#cards">Cards</a>
+    <a href="#badges">Badges</a>
+    <a href="#forms">Forms</a>
+    <a href="#navigation">Navigation</a>
+    <a href="#page-preview">Page Preview</a>
+  </nav>
+
+  <div class="main">
+
+    <!-- ═══════════════════ COVER ═══════════════════ -->
+    <section id="cover" class="cover">
+      <div class="cover-eyebrow">Design System v1.0</div>
+      <h1>[Your Brand]</h1>
+      <p>A single source of truth for how the brand looks, sounds, and behaves across every surface.</p>
+    </section>
+
+    <!-- ═══════════════════ COLORS ═══════════════════ -->
+    <section id="colors" class="section section--surface">
+      <span class="section-label">01 — Foundation</span>
+      <h2 class="section-title">Color Palette</h2>
+      <p class="section-subtitle">Use primary for CTAs and accents. Use neutrals for surfaces, dividers, and supporting text.</p>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-primary);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Primary</div><div class="swatch-hex">#2C5F2D</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-primary-dark);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Primary Dark</div><div class="swatch-hex">#1F4520</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-primary-light);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Primary Light</div><div class="swatch-hex">#97BC62</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-accent);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Accent</div><div class="swatch-hex">#C9A55C</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-dark);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Dark</div><div class="swatch-hex">#0F1419</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-ink);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Ink</div><div class="swatch-hex">#1A1A1A</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-ink-muted);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Ink Muted</div><div class="swatch-hex">#5C5C5C</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-neutral); border: 1px solid #ddd;"></div>
+          <div class="swatch-meta"><div class="swatch-name">Neutral</div><div class="swatch-hex">#E5E2DC</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-bg); border: 1px solid #ddd;"></div>
+          <div class="swatch-meta"><div class="swatch-name">Background</div><div class="swatch-hex">#FAFAF7</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-success);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Success</div><div class="swatch-hex">#4A7C59</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-warning);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Warning</div><div class="swatch-hex">#D4882A</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: var(--color-error);"></div>
+          <div class="swatch-meta"><div class="swatch-name">Error</div><div class="swatch-hex">#C04A3C</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ TYPOGRAPHY ═══════════════════ -->
+    <section id="typography" class="section">
+      <span class="section-label">02 — Foundation</span>
+      <h2 class="section-title">Typography</h2>
+      <p class="section-subtitle">Heading face: <strong>Fraunces</strong>. Body face: <strong>Inter</strong>. Keep line lengths under 75 characters.</p>
+
+      <div class="type-sample">
+        <div class="type-label">H1 / Display — Fraunces 64</div>
+        <div class="type-h1">The headline that opens the page.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-label">H2 — Fraunces 48</div>
+        <div class="type-h2">A section-opening statement.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-label">H3 — Fraunces 32</div>
+        <div class="type-h3">A supporting subsection title.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-label">H4 — Fraunces 24</div>
+        <div class="type-h4">Card or component heading.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-label">Body Large — Inter 18</div>
+        <div class="type-body-lg">Used for hero subheads and lead paragraphs. Keep tone confident and direct.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-label">Body — Inter 16</div>
+        <div class="type-body">The default text size. Most paragraphs, list items, card descriptions, and form labels live here.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-label">Small — Inter 13</div>
+        <div class="type-small">Captions, helper text, footnotes, metadata.</div>
+      </div>
+      <div class="type-sample">
+        <div class="type-label">Mono — SF Mono 14</div>
+        <div class="type-mono">code_snippets, hex_values, api_keys</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ BUTTONS ═══════════════════ -->
+    <section id="buttons" class="section section--surface">
+      <span class="section-label">03 — Components</span>
+      <h2 class="section-title">Buttons</h2>
+      <p class="section-subtitle">Primary for one action per view. Secondary for alternatives. Ghost for low-priority.</p>
+
+      <div class="button-row" style="margin-bottom: var(--space-4);">
+        <button class="btn btn--primary">Primary Action</button>
+        <button class="btn btn--secondary">Secondary</button>
+        <button class="btn btn--ghost">Ghost</button>
+      </div>
+      <div class="button-row">
+        <button class="btn btn--primary btn--lg">Large CTA</button>
+        <button class="btn btn--primary">Default</button>
+        <button class="btn btn--primary btn--sm">Small</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ CARDS ═══════════════════ -->
+    <section id="cards" class="section">
+      <span class="section-label">04 — Components</span>
+      <h2 class="section-title">Cards</h2>
+      <p class="section-subtitle">Use for feature blocks, pricing tiers, content modules.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">1</div>
+          <h4>Discover</h4>
+          <p>Surface insight before competitors do. Identify the buyers ready to move, not just the ones on a list.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">2</div>
+          <h4>Engage</h4>
+          <p>Reach prospects with the right message at the moment intent peaks. No more generic outreach.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">3</div>
+          <h4>Convert</h4>
+          <p>Move qualified opportunities through pipeline with systems that compound instead of breaking down.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ BADGES ═══════════════════ -->
+    <section id="badges" class="section section--surface">
+      <span class="section-label">05 — Components</span>
+      <h2 class="section-title">Badges & Status</h2>
+      <p class="section-subtitle">Inline status indicators for tables, lists, and inline labels.</p>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <span class="badge badge--success">Active</span>
+        <span class="badge badge--warning">Pending</span>
+        <span class="badge badge--error">Failed</span>
+        <span class="badge badge--info">In Review</span>
+        <span class="badge badge--neutral">Draft</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ FORMS ═══════════════════ -->
+    <section id="forms" class="section">
+      <span class="section-label">06 — Components</span>
+      <h2 class="section-title">Forms</h2>
+      <p class="section-subtitle">Single column. Labels above inputs. Clear focus states.</p>
+
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" type="text" placeholder="Jane Doe">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Work Email</label>
+        <input class="form-input" type="email" placeholder="jane@company.com">
+        <div class="form-helper">We'll never share this with anyone.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company Size</label>
+        <select class="form-select">
+          <option>1–10</option>
+          <option>11–50</option>
+          <option>51–200</option>
+          <option>200+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" rows="4" placeholder="Tell us what you're working on…"></textarea>
+      </div>
+      <button class="btn btn--primary">Submit</button>
+    </section>
+
+    <!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+    <section id="navigation" class="section section--surface">
+      <span class="section-label">07 — Patterns</span>
+      <h2 class="section-title">Navigation</h2>
+      <p class="section-subtitle">Top nav for marketing sites. Keep to five items + CTA.</p>
+
+      <div class="nav-preview">
+        <div class="nav-logo">[Your Brand]</div>
+        <div class="nav-links">
+          <a href="#">Product</a>
+          <a href="#">Solutions</a>
+          <a href="#">Pricing</a>
+          <a href="#">Resources</a>
+          <a href="#">About</a>
+        </div>
+        <button class="btn btn--primary btn--sm">Get Started</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ PAGE PREVIEW ═══════════════════ -->
+    <section id="page-preview" class="section">
+      <span class="section-label">08 — Composition</span>
+      <h2 class="section-title">Page Preview</h2>
+      <p class="section-subtitle">Components composed into a real homepage section.</p>
+
+      <div class="hero">
+        <h2>The category-defining headline.</h2>
+        <p>One sentence that explains who you serve, what you do, and the outcome they get. Nothing else.</p>
+        <button class="btn btn--primary btn--lg">Primary CTA</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num">$100M+</div>
+          <div class="stat-label">Revenue Impact</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">40%</div>
+          <div class="stat-label">Time Saved</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Companies Served</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">18mo</div>
+          <div class="stat-label">Avg. Payback</div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="testimonial-quote">"We rebuilt our entire GTM around this system. Pipeline coverage tripled in two quarters."</div>
+        <div class="testimonial-attr">— Customer Name, Title at Company</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ FOOTER ═══════════════════ -->
+    <section class="section section--dark">
+      <h2 class="section-title" style="color: var(--color-bg);">Make it yours.</h2>
+      <p class="section-subtitle">Edit the CSS variables, swap the fonts, replace the copy. The structure stays the same.</p>
+      <p style="font-size: 13px; opacity: 0.5; margin-top: var(--space-4);">
+        Design System Template · Built for Pavilion class by Scott Wueschinski · GTMify.io
+      </p>
+    </section>
+
+  </div>
+</body>
+</html>
