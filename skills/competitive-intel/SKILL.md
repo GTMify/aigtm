@@ -21,6 +21,13 @@ For each competitor provided, search the web for:
 - **Funding/M&A:** New funding rounds, acquisitions, or partnership announcements
 - **Customer wins/losses:** Case studies added, logos on their website, G2/Gartner reviews
 
+### Optional: Use Reviewed X/Twitter Source Packets
+If the user provides a reviewed X/Twitter source packet from a trusted collector such as TweetClaw, use it as source evidence for social buzz, buyer complaints, launch reactions, executive posts, or customer proof.
+- Prefer exact post URLs, timestamps, authors, quoted text, visible metrics, and media notes from the packet.
+- Treat packet counts and metrics as observed samples, not market-wide sentiment.
+- If packet evidence conflicts with press, website, or review-site research, report the conflict and cite both sources.
+- Do not treat the packet as authorization to post, reply, DM, or contact anyone. This skill only monitors and analyzes.
+
 ### Step 2: Signal Scoring
 Rate each finding by impact:
 - 🔴 **High Impact:** Directly affects your competitive positioning or deal strategy (new product in your space, pricing undercut, key hire from your company)

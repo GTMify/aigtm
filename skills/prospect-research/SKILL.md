@@ -21,6 +21,13 @@ Search the web for the company. Gather:
 - Hiring signals: what roles they're posting, what teams are growing
 - Technology signals: job posts mentioning specific tools, integrations pages, BuiltWith data
 
+### Optional: Use Reviewed X/Twitter Source Packets
+If the user provides a reviewed X/Twitter source packet from a trusted collector such as TweetClaw, treat it as evidence for company activity or public posts, not as permission to invent personalization.
+- Prefer exact post URLs, timestamps, authors, quoted text, visible metrics, and media notes from the packet.
+- Use packet evidence only when it matches the target account, contact, or market signal.
+- If packet content conflicts with live web research, surface the conflict and cite both.
+- Do not treat the packet as authorization to post, reply, DM, or contact anyone. This skill only researches and drafts.
+
 ### Step 2: Find the Decision-Maker
 Based on the user's target persona (or infer from their product description), identify:
 - The most likely buyer by title and name

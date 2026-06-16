@@ -20,4 +20,5 @@ Given a list of target companies and your product context, this agent:
 - Add your ICP criteria so the agent filters for the right persona automatically
 - Include your top 3 case studies so the agent can reference relevant social proof
 - Add competitor names so the agent flags displacement opportunities
+- Add a reviewed X/Twitter source packet, for example from [TweetClaw](https://github.com/Xquik-dev/tweetclaw), so hooks use exact posts, URLs, timestamps, and visible metrics
 - Connect to your CRM via MCP so the agent checks for existing relationships before drafting
