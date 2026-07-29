@@ -38,6 +38,10 @@ Customize **Layer 1 (Context)** in any one of them with your company / ICP / com
 
 When the Six-Layer Stack feels obvious and you want the moves that compound across skills — chaining, custom Layer 1 patterns, anti-hallucination constraints at scale, JSON output for chained pipelines, and *when not to use a skill* — read the 201 companion: **[Power Prompting 201](https://aigtmschool2026q2.vercel.app/power-prompting-201)**.
 
+## Agents and orchestration (201)
+
+The Power Prompting class taught you to save a prompt as a skill with a trigger phrase. The Advanced Agents class takes the next step: chaining those skills into one supervised motion a system can run start to finish. The new [Agent Orchestration](skills/agent-orchestration/) skill shows how, mapped to the five-layer Autonomous GTM Stack (Trigger, Agent decision, Execution, a required human-in-the-loop gate, and Feedback). Its worked example chains `prospect-research`, `cold-email`, `post-call-summary`, and `win-loss-analyzer` into a supervised outbound motion where nothing customer-facing sends until a person approves it. For the class walk-through and the field-kit version, see the companion page: **[Autonomous GTM](https://aigtmschool2026q2.vercel.app/autonomous-gtm)**.
+
 ---
 
 ## See It in Action
