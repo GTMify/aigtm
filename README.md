@@ -76,12 +76,43 @@ See the full breakdown in [What Gets Installed](#what-gets-installed) below.
 
 ### Windows (PowerShell)
 
+Windows takes three steps rather than one command. The macOS version can be piped straight from the network because `curl` ships with the OS, but on Windows the script has to be on disk before it can run, and `git` is what puts it there.
+
+Work in a normal PowerShell window, **not** an elevated one. Everything installs into your own user profile, so an Administrator prompt puts it in the wrong place. If your prompt opens at `C:\WINDOWS\system32`, you are elevated: close it and open PowerShell as your regular user.
+
+**1. Install git.**
+
 ```powershell
-git clone https://github.com/GTMify/aigtm.git $env:USERPROFILE\claude\aigtm
-~\claude\aigtm\setup\bootstrap.ps1
+winget install --id Git.Git -e --source winget
 ```
 
-Requires winget (built into Windows 11, available via App Installer on Windows 10). After setup, close and reopen your terminal, then run `claude`.
+winget is built into Windows 11 and available through App Installer on Windows 10. If `winget` is not recognized, install App Installer from the Microsoft Store, or download git from [git-scm.com](https://git-scm.com/download/win).
+
+**2. Close PowerShell and open it again.** This step is required, not tidiness. winget does not update the `PATH` of a session that is already running, so `git` stays unrecognized until you start a new window.
+
+**3. Clone and run.**
+
+```powershell
+git clone https://github.com/GTMify/aigtm.git $env:USERPROFILE\claude\aigtm
+cd $env:USERPROFILE\claude\aigtm
+.\setup\bootstrap.ps1
+```
+
+Note the `.\` and the `cd`. PowerShell will not execute a script from a bare path in command position, and it does not expand `~` there either, so a line like `~\claude\aigtm\setup\bootstrap.ps1` fails with a confusing complaint about a module that could not be loaded. To run it from some other directory, use the call operator instead: `& "$env:USERPROFILE\claude\aigtm\setup\bootstrap.ps1"`.
+
+If PowerShell refuses with a message about running scripts being disabled, allow it for the current session only:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+Phase 1 of the script installs git as well, which is harmless if step 1 already did. Prefer `.\setup\bootstrap.ps1 -Check` first if you want a read-only health report before anything changes. After setup finishes, close and reopen your terminal, then run `claude`.
+
+**Just want Claude Code and none of the GTM skills?** Skip this repo entirely. The official installer brings its own runtime, so it needs neither git nor Node:
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
 
 ### Claude Desktop / Cowork (no install required)
 
