@@ -32,8 +32,8 @@ Your coverage ratio is 2.84x — below the 3x minimum for a healthy pipeline. Mo
 |----------|-------|---------|
 | **Commit** | 1 | $200,000 |
 | **Best Case** | 2 | $530,000 |
-| **Upside** | 2 | $195,000 |
-| **At Risk / Pull** | 2 | $495,000 |
+| **Upside** | 2 | $475,000 |
+| **At Risk / Pull** | 2 | $215,000 |
 
 **Commit:** Clearpoint Media ($200K) — clean deal, no flags, active engagement, 8 days in demo stage. Likely to close.
 
